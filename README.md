@@ -8,12 +8,11 @@ Repo Privado del proyecto Spilba Desktop
 ### Pre-Requisitos
 
 ```
-Download NODEJS desde: https://nodejs.org/en/download/
+Download Node.js desde: https://nodejs.org/en/download/
 ```
 
 ### Ejecucion 
 En la carpeta en la cuál se haya clonado el Repositorio, correr:
-
 
 ```
 npm install
@@ -27,6 +26,7 @@ npm start
 npm run electron
 ```
 
-
+Al correr los comandos previos, debería verse la App:
+![Captura de Pantalla APP Spilba](src/images/CAPTURA_SPILBA.png)
 
 
