@@ -11,7 +11,7 @@ class App extends Component {
           <h2>Welcome to Spilba</h2>
         </div>
         <p className="App-intro">
-          Spilba Electron!
+          Spilba Electron!!!
         </p>
       </div>
     );
