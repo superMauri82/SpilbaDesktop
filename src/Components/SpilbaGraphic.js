@@ -16,9 +16,6 @@ class SpilbaGraphic extends Component{
         this.zoom         = zoom
     }
 
-    shouldComponentUpdate(nextProps, nextState){
-    }
-
     componentWillUpdate(nextProps, nextState){
     }
 
