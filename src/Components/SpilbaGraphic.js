@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
+import { scaleLinear } from 'd3-scale'
 import { connect } from 'react-redux'
+import { changeXzoomExtent } from './../Actions/actions'
 
 class SpilbaGraphic extends Component{
     constructor(props){
         super(props)
-        console.log(props)
-        const { data_sources, zoom } = props
-        this.data_sources = data_sources
-        this.zoom         = zoom
+        const { id, data_sources, zoom, onChangeZoomX } = props
+        this.data_sources  = data_sources
+        this.zoom          = zoom
+        this.id            = id
+        this.onChangeZoomX = onChangeZoomX
+    }
+
+    componentDidMount(){
     }
 
     componentWillReceiveProps(nextProps){
@@ -23,7 +29,6 @@ class SpilbaGraphic extends Component{
     }
 
     render(){
-        console.log("SpilbaGraphic::render()")
         return (
           <div className="GraficoUI">
               <h2>Recibi estos data sources: </h2>
@@ -34,9 +39,13 @@ class SpilbaGraphic extends Component{
                 Con este nivel de zoom: 
                 { this.zoom.zoom_x.reduce((acc,el) => `${acc} .. ${el}`,'') }
               </p>
+              <button onClick={ () => this.onChangeZoomX(  this.id ,[Math.ceil(Math.random()*100),323]) }>Cambiar Zoom</button>
+              <svg id={ `Spilba-Graphic-Targe-${this.id}` } width="1000" height="500"></svg>
           </div>
         )
     }
 }
+
+
 
 export default SpilbaGraphic;

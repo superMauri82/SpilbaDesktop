@@ -15,3 +15,8 @@ build
 npm-debug.log
 
 .idea
+.swp
+.~
+
+# ideas folder
+ideas/*

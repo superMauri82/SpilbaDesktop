@@ -6,8 +6,7 @@ import SpilbaGraphic from './../Components/SpilbaGraphic'
 
 const GraficosUI = ({ graficos = [], onChangeZoomX = f=>f }) =>
     <div className="GraficosUI_LIST">
-      { graficos.map( (grf,i) => <SpilbaGraphic key={i} {...grf} /> ) }
-      <button onClick={ () => onChangeZoomX(Math.ceil(Math.random()*2),[Math.ceil(Math.random()*100),323]) }>Cambiar Zoom</button>
+      { graficos.map( (grf,i) => <SpilbaGraphic key={i} {...grf} onChangeZoomX = {onChangeZoomX} /> ) }
     </div>
 
 const GrafContainer = connect(
@@ -16,7 +15,7 @@ const GrafContainer = connect(
     })
     ,
     dispatch => ({
-        onChangeZoomX(id,zoom=[]){
+        onChangeZoomX(id,zoom){
             dispatch(changeXzoomExtent(id,zoom))
         }
     })
