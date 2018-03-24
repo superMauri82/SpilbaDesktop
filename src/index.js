@@ -10,6 +10,11 @@ import storeFactory from './Stores/StoreFactory'
 const store = storeFactory()
 
 ReactDOM.render(
+  <App />,
+  document.getElementById('spilba')
+);
+
+ReactDOM.render(
   <GrafContainer store={store} />,
   document.getElementById('root')
 );
