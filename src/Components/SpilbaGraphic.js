@@ -27,7 +27,7 @@ class SpilbaGraphic extends Component{
          this.id            = id
          this.onChangeZoomX = onChangeZoomX
 
-         this.height                    = height || 600;        
+         this.height                    = height || 300;        
          this.width                     = width  || 960;       
          this.xOffset                   = 0.05*this.height;
          this.yOffset                   = 0.05*this.width; 
