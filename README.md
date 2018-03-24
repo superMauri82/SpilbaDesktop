@@ -27,7 +27,7 @@ npm run electron
 ```
 
 Al correr los comandos previos, debería verse la App:
-![Captura de Pantalla APP Spilba](src/images/CAPTURA_SPILBA.png)
+![Captura de Pantalla APP Spilba](src/images/CAPTURA_SPILBA_1.png)
 
 
 ### Status al 23/03/2018 
