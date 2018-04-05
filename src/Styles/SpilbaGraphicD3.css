@@ -1,0 +1,11 @@
+g.tick line{
+  opacity: 0.8;
+  stroke: 'black';
+  stroke-dasharray: 1.8;
+}
+
+path.line {
+  fill:none;
+  fill-opacity: 0.5;
+  stroke-width: 1;
+}

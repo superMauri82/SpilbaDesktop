@@ -55,14 +55,6 @@ class SpilbaGraphic extends Component{
          this.yAxisGroup  = null
 
 
-         this.brush       = brush().on("end", this.brushended)
-         this.idleTimeout = null
-         this.idleDelay   = 350
-
-        var xScale = this.xScale
-        var yScale = this.yScale
-
-
         // Defining cursor data accesors 
         this.incomingDataLine = 
           line()
@@ -71,7 +63,7 @@ class SpilbaGraphic extends Component{
 
          // Bind this to createBarCharts and brushended
          this.createBarCharts           = this.createBarCharts.bind(this)
-         this.brushended                = this.brushended.bind(this)
+         this.brush                     = brush
 
     }
 
@@ -93,6 +85,7 @@ class SpilbaGraphic extends Component{
     }
 
     brushended(){
+        console.log("brushended")
     }
 
     createBarCharts(){
@@ -101,6 +94,10 @@ class SpilbaGraphic extends Component{
         const colors           = this.colors
         const data_sources     = this.data_sources
         const data             = this.data
+
+        const brush            = this.brush().on("end", this.brushended)
+        const idleTimeout      = null
+        const idleDelay        = 350
 
         select(node)
          .selectAll('path.line')
@@ -139,9 +136,13 @@ class SpilbaGraphic extends Component{
               .selectAll('line')
               .attr('opacity','0.8')
               .attr('stroke','black')
-              .attr('stroke-dasharray','1,8');
+              .attr('stroke-dasharray','1,8')
           })
 
+        select(node)
+          .append("g")
+          .attr("class", "brush")
+          .call(brush)
 
     }
 
