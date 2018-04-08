@@ -29,7 +29,7 @@ class SpilbaGraphic extends Component{
 
          this.height                    = height || 300;        
          this.width                     = width  || 960;       
-         this.xOffset                   = 0.05*this.height;
+         this.xOffset                   = 0.1*this.height;
          this.yOffset                   = 0.05*this.width; 
          this.data                      = this.data_sources.map( ds => csvParse(ds.raw_data) )
          this.lengthsOfSamplesFiles     = this.data.map( x => x.length );
@@ -100,6 +100,10 @@ class SpilbaGraphic extends Component{
         const yScale         = this.yScale
         const xInitialDomain = this.xInitialDomain
         const yInitialDomain = this.yInitialDomain
+        const xOffset        = this.xOffset
+        const yOffset        = this.yOffset
+        const width          = this.width
+        const height         = this.height
 
         select(node)
          .selectAll('path.line')
@@ -140,6 +144,16 @@ class SpilbaGraphic extends Component{
               .attr('stroke-dasharray','1,8')
           })
 
+        // Setting the domain bolder
+        select(node)
+          .append("line")
+          .attr('stroke','black')
+          .attr('stroke-width','1')
+          .attr('x1',(width + xOffset))
+          .attr('y1',(yOffset))
+          .attr('x2',(width + xOffset))
+          .attr('y2',(height - yOffset));
+      
         select(node)
           .append("g")
           .attr("class", "brush")
