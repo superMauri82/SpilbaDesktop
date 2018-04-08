@@ -4,7 +4,7 @@ import { changeXzoomExtent } from './../Actions/actions'
 import { min, max, extent } from 'd3-array'
 import { scaleLinear, scaleOrdinal } from 'd3-scale'
 import { schemeCategory10 } from 'd3-scale-chromatic'
-import { select } from 'd3-selection'
+import { select, event } from 'd3-selection'
 import { brush } from 'd3-brush'
 import { line } from 'd3-shape'
 import { axisLeft, axisBottom } from 'd3-axis'
@@ -61,7 +61,7 @@ class SpilbaGraphic extends Component{
             .x((d,i) => { return this.xScale(i) } )
             .y( d    => { return this.yScale(d.velocity_kmh) } )
 
-         // Bind this to createBarCharts and brushended
+         // Bind this to createBarCharts
          this.createBarCharts           = this.createBarCharts.bind(this)
          this.brush                     = brush
 
@@ -84,10 +84,7 @@ class SpilbaGraphic extends Component{
     componentWillUpdate(nextProps, nextState){
     }
 
-    brushended(){
-        console.log("brushended")
-    }
-
+    // Continuar desde aca para generar el zoom en el grafico
     createBarCharts(){
         const node             = this.node
         const incomingDataLine = this.incomingDataLine
@@ -95,9 +92,14 @@ class SpilbaGraphic extends Component{
         const data_sources     = this.data_sources
         const data             = this.data
 
-        const brush            = this.brush().on("end", this.brushended)
-        const idleTimeout      = null
+        const brush            = this.brush().on("end", brushended)
+        let   idleTimeout      = null
         const idleDelay        = 350
+
+        const xScale         = this.xScale
+        const yScale         = this.yScale
+        const xInitialDomain = this.xInitialDomain
+        const yInitialDomain = this.yInitialDomain
 
         select(node)
          .selectAll('path.line')
@@ -113,7 +115,6 @@ class SpilbaGraphic extends Component{
                 .attr('stroke-width','1')
                 .attr('class','line');
             })
-
 
         select(node)
          .append("g")
@@ -143,6 +144,51 @@ class SpilbaGraphic extends Component{
           .append("g")
           .attr("class", "brush")
           .call(brush)
+
+    function brushended(){
+        console.log("brushended")
+        var s = event.selection;
+        if (!s) {
+          if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+          xScale.domain(xInitialDomain);
+          yScale.domain(yInitialDomain);
+        } else {
+          xScale.domain([s[0][0], s[1][0]].map(xScale.invert, xScale));
+          yScale.domain([s[1][1], s[0][1]].map(yScale.invert, yScale));
+          select(node).select(".brush").call(brush.move, null);
+        }
+        zoom();
+    }
+
+    const yAxisGroup = this.yAxisGroup
+    const xAxis      = this.xAxis
+    const yAxis      = this.yAxis
+    function zoom() {
+      var t = select(node).transition().duration(750);
+      select(node).select(".axis--x").transition(t).call(xAxis);
+      select(node).select(".axis--y").transition(t).call(yAxis);
+      select(node).selectAll('path.line')
+         .transition(t)
+         .each(function(d,i){
+            select(this).attr('d',incomingDataLine(data[i]))
+        });
+    
+      yAxisGroup
+        .selectAll('g.tick') 
+        .transition(t)
+        .each(function(){
+          select(this)
+            .selectAll('line')
+            .attr('opacity','0.8')
+            .attr('stroke','black')
+            .attr('stroke-dasharray','1,8');
+        });
+    }
+
+    function idled() {
+      idleTimeout = null;
+    }
+
 
     }
 
