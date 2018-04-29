@@ -29,8 +29,9 @@ class SpilbaGraphic extends Component{
 
          this.height                    = height || 300;        
          this.width                     = width  || 960;       
-         this.xOffset                   = 0.1*this.height;
-         this.yOffset                   = 0.05*this.width; 
+         this.xOffset                   = 0.05*this.width;
+         this.yOffset                   = 0.05*this.height; 
+         this.yRangeMin                 = 0.2*this.yOffset; 
          this.data                      = this.data_sources.map( ds => csvParse(ds.raw_data) )
          this.lengthsOfSamplesFiles     = this.data.map( x => x.length );
          this.maxLengthOfSamplesFiles   = this.lengthsOfSamplesFiles.reduce( (x,acc) => x > acc ? x : acc );
@@ -46,7 +47,7 @@ class SpilbaGraphic extends Component{
 
          // Chart Scales
          this.xScale = scaleLinear().clamp(true).domain(this.xInitialDomain).range([this.xOffset,(this.width+this.xOffset)]);
-         this.yScale = scaleLinear().clamp(true).domain(this.yInitialDomain).range([(this.height - this.yOffset),this.yOffset]);
+         this.yScale = scaleLinear().clamp(true).domain(this.yInitialDomain).range([(this.height - this.yOffset),this.yRangeMin]);
          this.colors = scaleOrdinal(schemeCategory10);
 
          this.xAxis = axisBottom(this.xScale).ticks(12)
@@ -116,6 +117,8 @@ class SpilbaGraphic extends Component{
         const height         = this.height
         const onChangeZoomX  = this.onChangeZoomX 
         const id             = this.id
+        const maxLengthOfSamplesFiles = this.maxLengthOfSamplesFiles
+        const yRangeMin      = this.yRangeMin
 
         select(node)
          .html("");
@@ -145,7 +148,7 @@ class SpilbaGraphic extends Component{
           select(node)
             .append("g")
             .attr("class", "axis axis--y")
-            .attr("transform", "translate(" + this.xOffset + ",0)")
+            .attr("transform", "translate(" + (xOffset) + ",0)")
             .call(this.yAxis)
         
         // Horizontal Grid Lines ...
@@ -164,9 +167,9 @@ class SpilbaGraphic extends Component{
           .append("line")
           .attr('stroke','black')
           .attr('stroke-width','1')
-          .attr('x1',(width + xOffset))
-          .attr('y1',(yOffset))
-          .attr('x2',(width + xOffset))
+          .attr('x1', xScale(maxLengthOfSamplesFiles))
+          .attr('y1',(yRangeMin))
+          .attr('x2', xScale(maxLengthOfSamplesFiles))
           .attr('y2',(height - yOffset));
       
         select(node)
@@ -231,7 +234,7 @@ class SpilbaGraphic extends Component{
     render(){
         return (
           <div className="GraficoUI">
-              <svg ref={ node => this.node = node } width={this.width + this.yOffset} height={this.height + this.xOffset}></svg>
+              <svg ref={ node => this.node = node } width={this.width + this.xOffset} height={this.height + this.yOffset}></svg>
           </div>
         )
     }
