@@ -68,20 +68,30 @@ class SpilbaGraphic extends Component{
     }
 
     componentDidMount(){
+        console.log("SpilbaGraphic::componentDidMount()")
         this.createBarCharts()
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+        console.log("SpilbaGraphic::shouldComponentUpdate()")
+        const id = this.id
+        return id !== nextProps.id
+    }
+
     componentDidUpdate(){
+        console.log("SpilbaGraphic::componentDidUpdate()")
         this.createBarCharts()
     }
 
     componentWillReceiveProps(nextProps){
+        console.log("SpilbaGraphic::componentWillReceiveProps()")
         const { data_sources, zoom } = nextProps
         this.data_sources = data_sources
-        this.zoom         = zoom
+        this.xScale.domain(zoom.zoom_x)
     }
 
     componentWillUpdate(nextProps, nextState){
+        console.log("SpilbaGraphic::componentWillUpdate()")
     }
 
     // Continuar desde aca para generar el zoom en el grafico
@@ -104,6 +114,11 @@ class SpilbaGraphic extends Component{
         const yOffset        = this.yOffset
         const width          = this.width
         const height         = this.height
+        const onChangeZoomX  = this.onChangeZoomX 
+        const id             = this.id
+
+        select(node)
+         .html("");
 
         select(node)
          .selectAll('path.line')
@@ -121,10 +136,10 @@ class SpilbaGraphic extends Component{
             })
 
         select(node)
-         .append("g")
-         .attr("class", "axis axis--x")
-         .attr("transform", "translate(0," + (this.height - this.yOffset) + ")")
-         .call(this.xAxis)
+          .append("g")
+          .attr("class", "axis axis--x")
+          .attr("transform", "translate(0," + (this.height - this.yOffset) + ")")
+          .call(this.xAxis)
     
         this.yAxisGroup = 
           select(node)
@@ -159,49 +174,56 @@ class SpilbaGraphic extends Component{
           .attr("class", "brush")
           .call(brush)
 
-    function brushended(){
-        console.log("brushended")
-        var s = event.selection;
-        if (!s) {
-          if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-          xScale.domain(xInitialDomain);
-          yScale.domain(yInitialDomain);
-        } else {
-          xScale.domain([s[0][0], s[1][0]].map(xScale.invert, xScale));
-          yScale.domain([s[1][1], s[0][1]].map(yScale.invert, yScale));
-          select(node).select(".brush").call(brush.move, null);
+        function brushended(){
+            var s = event.selection;
+            var x_new_values = []
+            var y_new_values = []
+
+            if (!s) {
+              if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay)
+              x_new_values = xInitialDomain
+              xScale.domain(xInitialDomain)
+              yScale.domain(yInitialDomain)
+            } else {
+              x_new_values = [s[0][0], s[1][0]].map(xScale.invert, xScale)
+              xScale.domain(x_new_values)
+              y_new_values = [s[1][1], s[0][1]].map(yScale.invert, yScale)
+              yScale.domain(y_new_values)
+              select(node).select(".brush").call(brush.move, null)
+            }
+            zoom()
+            onChangeZoomX(id,x_new_values)
+
         }
-        zoom();
-    }
 
-    const yAxisGroup = this.yAxisGroup
-    const xAxis      = this.xAxis
-    const yAxis      = this.yAxis
-    function zoom() {
-      var t = select(node).transition().duration(750);
-      select(node).select(".axis--x").transition(t).call(xAxis);
-      select(node).select(".axis--y").transition(t).call(yAxis);
-      select(node).selectAll('path.line')
-         .transition(t)
-         .each(function(d,i){
-            select(this).attr('d',incomingDataLine(data[i]))
-        });
-    
-      yAxisGroup
-        .selectAll('g.tick') 
-        .transition(t)
-        .each(function(){
-          select(this)
-            .selectAll('line')
-            .attr('opacity','0.8')
-            .attr('stroke','black')
-            .attr('stroke-dasharray','1,8');
-        });
-    }
+        const yAxisGroup = this.yAxisGroup
+        const xAxis      = this.xAxis
+        const yAxis      = this.yAxis
+        function zoom() {
+          var t = select(node).transition().duration(1000);
+          select(node) .select(".axis--x").transition(t).call(xAxis);
+          select(node).select(".axis--y").transition(t).call(yAxis);
+          select(node).selectAll('path.line')
+             .transition(t)
+             .each(function(d,i){
+                select(this).attr('d',incomingDataLine(data[i]))
+            });
+        
+          yAxisGroup
+            .selectAll('g.tick') 
+            .transition(t)
+            .each(function(){
+              select(this)
+                .selectAll('line')
+                .attr('opacity','0.8')
+                .attr('stroke','black')
+                .attr('stroke-dasharray','1,8');
+            });
+        }
 
-    function idled() {
-      idleTimeout = null;
-    }
+        function idled() {
+          idleTimeout = null;
+        }
 
 
     }

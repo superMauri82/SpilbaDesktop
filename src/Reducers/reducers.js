@@ -77,12 +77,11 @@ export const grafico = (state={}, action) => {
 
         case (C.CHANGE_Y_ZOOM_EXTENT):
         case (C.CHANGE_X_ZOOM_EXTENT):
-          
-            return (state.id !== action.id) ? 
-             state :
-             {
+
+            return {
                 ...state,
-                zoom: zoom(state.zoom,action)
+                zoom: zoom(state.zoom,action),
+                id: action.id
              }
 
         default:
