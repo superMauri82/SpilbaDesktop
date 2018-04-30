@@ -30,7 +30,7 @@ Al correr los comandos previos, debería verse la App:
 ![Captura de Pantalla APP Spilba](src/images/CAPTURA_SPILBA_2.png)
 
 ### Status al 30/04/2018
-Se inicia la etapa de integracion entre el modelo de datos, el layout de la App y la funcionalidad de Zoom. Se crea nuevo branch "integracion" para separar estas tareas y, eventualmente, converger en master, una vez estabilizado el desarrollo.
+Se inicia la etapa de integración entre el modelo de datos, el layout de la App y la funcionalidad de Zoom. Se crea nuevo branch "integracion" para separar estas tareas y, eventualmente, converger en master, una vez estabilizado el desarrollo.
 
 
 
