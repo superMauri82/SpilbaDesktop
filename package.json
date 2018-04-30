@@ -5,16 +5,24 @@
   "devDependencies": {
     "electron": "^1.7.9",
     "foreman": "^2.0.0",
+    "pouchdb-debug": "^6.4.3",
     "react-scripts": "0.8.5"
   },
   "dependencies": {
+    "bootstrap": "^4.1.0",
     "d3": "^4.13.0",
     "d3-scale-chromatic": "^1.2.0",
     "eslint": "^4.19.1",
+    "immutable": "^3.8.2",
+    "pouchdb": "^6.4.3",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-transition-group": "^2.3.1",
+    "reactstrap": "^5.0.0",
     "redux": "^3.7.2",
+    "simple-line-icons": "^2.4.1",
     "uuid": "^3.2.1"
   },
   "homepage": "./",
