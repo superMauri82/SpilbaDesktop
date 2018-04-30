@@ -6,15 +6,10 @@ import GrafContainer from './Components/Graficos'
 import initialState from './State/initialState'
 import storeFactory from './Stores/StoreFactory'
 
-
-const store = storeFactory()
+import 'simple-line-icons/css/simple-line-icons.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
   <App />,
   document.getElementById('spilba')
-);
-
-ReactDOM.render(
-  <GrafContainer store={store} />,
-  document.getElementById('root')
 );
