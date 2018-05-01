@@ -6,6 +6,7 @@ import IndexPage from './pages/index';
 import DashboardPage from './pages/dashboard';
 import TracksPage from './pages/tracks';
 import LogsPage from './pages/logs';
+import PistaPage from './pages/pista';
 import SessionsPage from './pages/sessions';
 import {
   BrowserRouter,
@@ -38,6 +39,7 @@ class App extends Component {
           <Route path={'/logs'}           component={LogsPage} />
           <Route path={'/tracks'}         component={TracksPage} />
           <Route path={'/sessions'}       component={SessionsPage} />
+          <Route path={'/pista'}          component={PistaPage} />
           <Route path={'/'}               component={IndexPage} />
           <Route                          component={NotFoundPage} />
         </Switch>

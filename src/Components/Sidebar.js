@@ -38,6 +38,12 @@ class Sidebar extends Component {
                 <i className='icon-home' /> Tracks
               </NavLink>
             </NavItem>
+
+            <NavItem>
+              <NavLink to='/pista' className='nav-link' activeClassName="active">
+                <i className='icon-home' /> Pista
+              </NavLink>
+            </NavItem>
             
           </Nav>
         </nav>
