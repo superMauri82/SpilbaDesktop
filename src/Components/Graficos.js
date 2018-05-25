@@ -6,13 +6,13 @@ import SpilbaGraphic from './../Components/SpilbaGraphic'
 import zipWith from 'lodash/zipWith'
 import sortBy from 'lodash/sortBy'
 import isUndefined from 'lodash/isUndefined'
-//import GraphicShifter from './GraphicShifter'
+import GraphicShifter from './GraphicShifter'
 
 const GraficosUI = ({ active_logs=[], active_channels=[], onChangeZoomX = f=>f }) =>
     { 
-      console.log("GraficosUI")
       return (
         <div className="GraficosUI_LIST">
+          <GraphicShifter  colors={ active_logs.map( acl => ({ color: acl.color, id_log: acl.id_log , name_log: acl.name_log}))} />
           { active_channels.map( (ach,i) => <SpilbaGraphic key={i} {...ach} active_logs={active_logs} onChangeZoomX={onChangeZoomX} /> ) }
         </div>
      )}

@@ -15,21 +15,25 @@ var initialState = {
     active_logs: [
         {
           id_log: id_01,
+          name_log: 'Pista 1',
           color: 'green',
           x_offset: 10
         },
         {
           id_log: id_02,
+          name_log: 'Pista 2',
           color: 'blue',
           x_offset: 10
         },
         {
           id_log: id_03,
+          name_log: 'Pista 3',
           color: 'red',
           x_offset: 10
         },
         {
           id_log: id_04,
+          name_log: 'Pista 4',
           color: 'orange',
           x_offset: 13
         }

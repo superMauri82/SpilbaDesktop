@@ -1,0 +1,19 @@
+div.graphicShifter{
+    display: block;
+    width: 100%;
+    padding-top: 20px;
+    margin: auto;
+    margin-left: 20px;
+}
+
+div.graphicShifter div div{
+    cursor: pointer;
+    margin-left: 20px;
+    width: 50px;
+    min-width: fill;
+    border-radius: 10px;
+    display: inline;
+    padding: 0 50px 0 0 ;
+}
+
+
