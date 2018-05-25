@@ -13,18 +13,21 @@ import { csvParse } from 'd3-dsv'
 class SpilbaGraphic extends Component{
     constructor(props){
         super(props)
+        console.log("SpilbaGraphic")
+        console.log(props)
         const { 
-          id, 
-          data_sources, 
+          id_channel, 
           zoom, 
           height,
           width,                    
           upFreeSpaceCoeff,          
+          active_logs,
           onChangeZoomX } = props
 
-         this.data_sources  = data_sources
+         //this.data_sources  = data_sources
+         this.data_sources  = active_logs
          this.zoom          = zoom
-         this.id            = id
+         this.id_channel    = id_channel
          this.onChangeZoomX = onChangeZoomX
 
          this.height                    = height || 300;        
@@ -75,8 +78,8 @@ class SpilbaGraphic extends Component{
 
     shouldComponentUpdate(nextProps, nextState){
         console.log("SpilbaGraphic::shouldComponentUpdate()")
-        const id = this.id
-        return id !== nextProps.id
+        const id_channel = this.id_channel
+        return id_channel !== nextProps.id_channel
     }
 
     componentDidUpdate(){
@@ -116,7 +119,7 @@ class SpilbaGraphic extends Component{
         const width          = this.width
         const height         = this.height
         const onChangeZoomX  = this.onChangeZoomX 
-        const id             = this.id
+        const id_channel     = this.id_channel
         const maxLengthOfSamplesFiles = this.maxLengthOfSamplesFiles
         const yRangeMin      = this.yRangeMin
 
@@ -195,7 +198,7 @@ class SpilbaGraphic extends Component{
               select(node).select(".brush").call(brush.move, null)
             }
             zoom()
-            onChangeZoomX(id,x_new_values)
+            onChangeZoomX(id_channel,x_new_values)
 
         }
 
@@ -232,6 +235,7 @@ class SpilbaGraphic extends Component{
     }
 
     render(){
+
         return (
           <div className="GraficoUI">
               <svg ref={ node => this.node = node } width={this.width + this.xOffset} height={this.height + this.yOffset}></svg>

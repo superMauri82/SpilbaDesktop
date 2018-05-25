@@ -3,15 +3,31 @@ import { v4 } from 'uuid'
 import { connect } from 'react-redux'
 import { changeXzoomExtent } from './../Actions/actions'
 import SpilbaGraphic from './../Components/SpilbaGraphic'
+import zipWith from 'lodash/zipWith'
+import sortBy from 'lodash/sortBy'
+import isUndefined from 'lodash/isUndefined'
+//import GraphicShifter from './GraphicShifter'
 
-const GraficosUI = ({ graficos = [], onChangeZoomX = f=>f }) =>
-    <div className="GraficosUI_LIST">
-      { graficos.map( (grf,i) => <SpilbaGraphic key={i} {...grf} onChangeZoomX = {onChangeZoomX} /> ) }
-    </div>
+const GraficosUI = ({ active_logs=[], active_channels=[], onChangeZoomX = f=>f }) =>
+    { 
+      console.log("GraficosUI")
+      return (
+        <div className="GraficosUI_LIST">
+          { active_channels.map( (ach,i) => <SpilbaGraphic key={i} {...ach} active_logs={active_logs} onChangeZoomX={onChangeZoomX} /> ) }
+        </div>
+     )}
 
 const GrafContainer = connect(
     state => ({
-        graficos: [...state.graficos]
+
+        active_logs: zipWith(
+                       sortBy([...state.in_session_logs], isl => isl.id_log),
+                       sortBy([...state.active_logs],acl => acl.id_log), 
+                       (isl,acl) => ({ ...isl, ...acl })
+                     ).filter( zlog => !isUndefined(zlog.x_offset) ),
+
+        active_channels: [...state.active_channels]
+
     })
     ,
     dispatch => ({

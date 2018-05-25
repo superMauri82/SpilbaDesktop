@@ -2,7 +2,12 @@ import { createStore,
          combineReducers,
          applyMiddleware } from 'redux'
 
-import { graficos } from  './../Reducers/reducers'
+import { 
+    in_session_logs,
+    active_logs,
+    channels,
+    active_channels 
+} from  './../Reducers/reducers'
 import stateData from './../State/initialState'
 
 const logger = store => next => action => {
@@ -23,7 +28,12 @@ const saver = store => next => action => {
 
 const storeFactory = (initialState=stateData) => 
     applyMiddleware(logger, saver)(createStore)(
-        combineReducers({ graficos }),
+        combineReducers({ 
+            in_session_logs,
+            active_logs,
+            channels,
+            active_channels
+        }),
         //(localStorage['redux-store']) ?
          //   JSON.parse(localStorage['redux-store']) :
             stateData

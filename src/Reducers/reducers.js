@@ -1,124 +1,115 @@
-/* eslint-disable */
+/* eslint_disable */
 import React from 'react'
 import { v4 } from 'uuid'
 import C from './../Actions/Constants'
 
-export const data_sources = (state=[], action) =>{
+
+export const in_session_logs = (state=[], action) =>{
     switch (action.type){
-        case (C.ADD_GRAPHIC):
+      case (C.ADD_IN_SESSION_LOG):
+        return [ ...state,
+                 {
+                     id_log: v4(),
+                     name_log: action.log,
+                     raw_data: action.raw_data
+                 }
+        ]
+      case (C.REMOVE_IN_SESSION_LOG):
+        return state.filter( log =>
+              log.id_log !== action.id_log
+        )
 
-            return [ 
-                     {
-                       id: v4(),
-                       log: action.log,
-                       x_axis: action.x_axis,
-                       y_axis: action.y_axis,
-                       visible: true
-                     }
-            ]
-
-        case (C.TOGGLE_DATA_SOURCE_VISIBILITY):
-            return state.map( ds =>
-                ds.id !== action.ds_id ?
-                ds :
-                { 
-                    ...ds,
-                    visible: !ds.visible
-                })
-            
-        default: 
-            return state
+      default:
+        return state;
     }
 }
 
-export const zoom = (state={}, action) => {
+export const active_logs = (state=[], action) =>{
     switch (action.type){
-
-        case (C.CHANGE_X_ZOOM_EXTENT):
-            return { 
-                   ...state,
-                   zoom_x: action.zoom_x
-                }
-
-        case (C.CHANGE_Y_ZOOM_EXTENT):
-            return { 
-                   ...state,
-                   zoom_y: action.zoom_y
-                }
-
-        case (C.ADD_GRAPHIC):
-            return {
-                zoom_x: action.zoom.zoom_x,
-                zoom_y: action.zoom.zoom_y
-            }
-
-        default: 
-            return state
+        case (C.ACTIVATE_LOG):{
+          return [
+              ...state,
+              {
+                id_log: action.id_log,
+                name_log: action.name_log,
+                color: 'red',
+                x_offset: 10
+              }
+          ]
+      }
+        case (C.DEACTIVATE_LOG):{
+          return state.filter( active_log =>
+              active_log.id_log !== action.id_log
+          )
+      }
+      default:
+          return state;
     }
 }
 
-export const grafico = (state={}, action) => {
+export const channels = (state=[], action) =>{
     switch (action.type){
+        case (C.ADD_CHANEL):{
+          return [
+              ...state,
+              {
+                  id_channel: v4(),
+                  channel_name: action.channel_name,
+                  channel_function: x => x
+              }
+          ]
+      }
+        case (C.REMOVE_CHANEL):{
+          return state.filter(
+              ch => ch.id_channel !== action.id_channel
+          )
+      }
+        default: 
+          return state;
+    }
+}
 
-        case (C.ADD_GRAPHIC):
-            return { 
-                id: action.id,
-                data_sources: data_sources([],action),
-                zoom: zoom({},action)
-            }
-
-        case (C.TOGGLE_DATA_SOURCE_VISIBILITY):
-            return ( state.id !== action.id) ? 
-                state :
-                {
-                  ...state,
-                  data_sources: data_sources(state.data_sources,action)
+export const active_channels = (state=[], action) =>{
+    switch (action.type){
+        case (C.ACTIVATE_CHANNEL):{
+          return [
+              ...state,
+              {
+                id_channel: action.id_channel,
+                zoom: { 
+                  zoom_x : action.active_zoom_x,
+                  zoom_y : [ 0, Number.MAX_SAFE_INTEGER ]
                 }
+              }
+          ]
+      }
+        case (C.DEACTIVATE_CHANNEL):{
+          return state.filter(
+              a_ch => a_ch.id_channel !== action.id_channel
+          )
+      }
+        case (C.CHANGE_X_ZOOM):
+        case (C.CHANGE_Y_ZOOM):
+            return state.map( a_ch =>            
+                active_channel(a_ch,action)
+            )
 
-        case (C.CHANGE_Y_ZOOM_EXTENT):
-        case (C.CHANGE_X_ZOOM_EXTENT):
+        default: 
+          return state;
+    }
+}
 
+export const active_channel = (state = {} , action ) =>{
+    switch (action.type){
+        case (C.CHANGE_X_ZOOM):{
             return {
                 ...state,
-                zoom: zoom(state.zoom,action),
-                id: action.id
-             }
-
-        default:
-            return state
+                id_channel: action.id_channel,
+                zoom: { 
+                    ...state.zoom,
+                    zoom_x: action.zoom_x
+                }
+            }
+        }
     }
 }
-
-
-export const graficos = (state=[], action) =>{
-    switch (action.type){
-        case (C.ADD_GRAPHIC):
-            return [
-                ...state,
-                grafico({},action)
-            ]
-
-        case (C.REMOVE_GRAPHIC):
-            return state.filter( 
-                grf => grf.id !== action.id 
-            )
-
-        case (C.ADD_DATA_SOURCE):
-        case (C.REMOVE_DATA_SOURCE):
-        case (C.TOGGLE_DATA_SOURCE_VISIBILITY):
-            return state.map( grf => 
-                grafico(grf,action)
-            )
-
-        case (C.CHANGE_X_ZOOM_EXTENT):
-        case (C.CHANGE_Y_ZOOM_EXTENT):
-            return state.map( grf =>            
-                grafico(grf,action)
-            )
-
-
-        default: 
-            return state
-    }
-}
-
