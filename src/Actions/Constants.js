@@ -8,7 +8,8 @@ const constants = {
    ACTIVATE_CHANNEL              : "ACTIVATE_CHANNEL",               /* => agrega un gráfico mostrando canal seleccionado para logs activos */
    DEACTIVATE_CHANNEL            : "DEACTIVATE_CHANNEL",             /* => quita gráfico de canal seleccionado  */
    CHANGE_X_ZOOM                 : "CHANGE_X_ZOOM",                  /* => modifica eje X en todos los active-channels */
-   CHANGE_Y_ZOOM                 : "CHANGE_Y_ZOOM"                  /* => modifica eje Y en active-channel desde el que se triggerea esta action */
+   CHANGE_Y_ZOOM                 : "CHANGE_Y_ZOOM",                  /* => modifica eje Y en active-channel desde el que se triggerea esta action */
+   SHIFT_CURVE_X                 : "SHIFT_CURVE_X"                   /* => shiftea curva a izquierda o derecha */
 }
 
 export default constants;

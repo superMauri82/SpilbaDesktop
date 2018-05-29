@@ -16,3 +16,11 @@ export const changeYzoomExtent =
           type: C.CHANGE_Y_ZOOM,
           zoom_y
       })
+
+export const shiftCurveX = 
+    (id_log, x_offset) =>
+      ({
+          id_log,
+          type: C.SHIFT_CURVE_X,
+          x_offset
+      })
