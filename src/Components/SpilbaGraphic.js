@@ -9,12 +9,12 @@ import { brush } from 'd3-brush'
 import { line } from 'd3-shape'
 import { axisLeft, axisBottom } from 'd3-axis'
 import { csvParse } from 'd3-dsv'
+import { drag } from 'd3-drag'
 
 class SpilbaGraphic extends Component{
     constructor(props){
         super(props)
         console.log("SpilbaGraphic")
-        console.log(props)
         const { 
           id_channel, 
           zoom, 
@@ -22,12 +22,15 @@ class SpilbaGraphic extends Component{
           width,                    
           upFreeSpaceCoeff,          
           active_logs,
+          onShiftCurve,
           onChangeZoomX } = props
+
 
          //this.data_sources  = data_sources
          this.data_sources  = active_logs
          this.zoom          = zoom
          this.id_channel    = id_channel
+         this.onShiftCurve  = onShiftCurve
          this.onChangeZoomX = onChangeZoomX
 
          this.height                    = height || 300;        
@@ -36,6 +39,7 @@ class SpilbaGraphic extends Component{
          this.yOffset                   = 0.05*this.height; 
          this.yRangeMin                 = 0.2*this.yOffset; 
          this.data                      = this.data_sources.map( ds => csvParse(ds.raw_data) )
+         this.offsets                   = this.data_sources.map( ds => ds.x_offset )
          this.lengthsOfSamplesFiles     = this.data.map( x => x.length );
          this.maxLengthOfSamplesFiles   = this.lengthsOfSamplesFiles.reduce( (x,acc) => x > acc ? x : acc );
          this.minsAndMaxsOfSamplesFiles = this.data.map( x => extent( x, d=>+d.velocity_kmh ) ).reduce((a,acc) => a.concat(acc) , []);
@@ -60,10 +64,10 @@ class SpilbaGraphic extends Component{
 
 
         // Defining cursor data accesors 
-        this.incomingDataLine = 
-          line()
+        this.incomingDataLine = line()
             .x((d,i) => { return this.xScale(i) } )
             .y( d    => { return this.yScale(d.velocity_kmh) } )
+
 
          // Bind this to createBarCharts
          this.createBarCharts           = this.createBarCharts.bind(this)
@@ -101,9 +105,10 @@ class SpilbaGraphic extends Component{
     // Continuar desde aca para generar el zoom en el grafico
     createBarCharts(){
         const node             = this.node
-        const incomingDataLine = this.incomingDataLine
+        let incomingDataLine = this.incomingDataLine
         const colors           = this.colors
         const data_sources     = this.data_sources
+        const offsets          = this.offsets
         const data             = this.data
 
         const brush            = this.brush().on("end", brushended)
@@ -119,12 +124,18 @@ class SpilbaGraphic extends Component{
         const width          = this.width
         const height         = this.height
         const onChangeZoomX  = this.onChangeZoomX 
+        const onShiftCurve   = this.onShiftCurve 
         const id_channel     = this.id_channel
         const maxLengthOfSamplesFiles = this.maxLengthOfSamplesFiles
         const yRangeMin      = this.yRangeMin
+        const dragBehavior = drag()
+                               .on("start",dragstarted)
+                               .on("drag",dragged)
+                               .on("end",dragend)
 
         select(node)
          .html("");
+
 
         select(node)
          .selectAll('path.line')
@@ -132,13 +143,21 @@ class SpilbaGraphic extends Component{
              .enter()
              .append('path')
              .each(function(d,i){
+               
+               incomingDataLine = line()
+                .x((dat,j) => { return xScale(j + offsets[i] ) } )
+                .y( dat    => { return yScale(dat.velocity_kmh) } )
+
                select(this)
                 .attr('d',incomingDataLine(data[i]))
                 .attr('fill','none')
                 .attr('fill-opacity','0.5')
                 .attr('stroke',colors(i))
-                .attr('stroke-width','1')
-                .attr('class','line');
+                .attr('stroke-width','3')
+                .attr('id',() => `curva_${i}`)
+                .attr('class','line')
+                .call(dragBehavior);
+
             })
 
         select(node)
@@ -175,10 +194,10 @@ class SpilbaGraphic extends Component{
           .attr('x2', xScale(maxLengthOfSamplesFiles))
           .attr('y2',(height - yOffset));
       
-        select(node)
-          .append("g")
-          .attr("class", "brush")
-          .call(brush)
+//        select(node)
+//          .append("g")
+//          .attr("class", "brush")
+//          .call(brush)
 
         function brushended(){
             var s = event.selection;
@@ -229,6 +248,49 @@ class SpilbaGraphic extends Component{
 
         function idled() {
           idleTimeout = null;
+        }
+
+        let initialDragDomainValue = 0
+        let initialDragRangeValue  = 0
+        let finalDragDomainValue   = 0
+        let finalDragRangeValue    = 0
+        function dragstarted(){
+            console.log("GATRO")
+            console.log(select(this))
+            select(this).raise()
+            var dx = event.sourceEvent.offsetX,
+                dy = event.sourceEvent.offsetY
+
+                initialDragDomainValue  = xScale.invert(dx)
+                initialDragRangeValue   = yScale.invert(dy)
+
+                console.log("draggedSTART()--")
+                console.log(dx + " inverted... " + initialDragDomainValue)
+                console.log(dy + " inverted... " + initialDragRangeValue)
+        }
+
+
+        function dragged(){
+            var dx = event.sourceEvent.offsetX,
+                dy = event.sourceEvent.offsetY
+        }
+
+        function dragend(){
+            var dx = event.sourceEvent.offsetX,
+                dy = event.sourceEvent.offsetY
+
+                finalDragDomainValue  = xScale.invert(dx)
+                finalDragRangeValue   = yScale.invert(dy)
+
+                console.log("draggedEND()--")
+                console.log(dx + " inverted... " + finalDragDomainValue)
+                console.log(dy + " inverted... " + finalDragRangeValue)
+
+                console.log(`SHIFT EN X: ${Math.floor(finalDragDomainValue - initialDragDomainValue)}`)
+                const x_offset = Math.floor(finalDragDomainValue - initialDragDomainValue);
+
+            var id_log = 10
+            onShiftCurve(id_log,x_offset)
         }
 
 
