@@ -10,11 +10,13 @@ import { line } from 'd3-shape'
 import { axisLeft, axisBottom } from 'd3-axis'
 import { csvParse } from 'd3-dsv'
 import { drag } from 'd3-drag'
+import isEqual from 'lodash/isEqual'
+import './SpilbaGraphic.css'
 
 class SpilbaGraphic extends Component{
     constructor(props){
         super(props)
-        console.log("SpilbaGraphic")
+        console.log("SpilbaGraphic::constructor()")
         const { 
           id_channel, 
           zoom, 
@@ -27,6 +29,7 @@ class SpilbaGraphic extends Component{
 
 
          //this.data_sources  = data_sources
+         this.active_logs   = active_logs
          this.data_sources  = active_logs
          this.zoom          = zoom
          this.id_channel    = id_channel
@@ -39,10 +42,10 @@ class SpilbaGraphic extends Component{
          this.yOffset                   = 0.05*this.height; 
          this.yRangeMin                 = 0.2*this.yOffset; 
          this.data                      = this.data_sources.map( ds => csvParse(ds.raw_data) )
-         this.offsets                   = this.data_sources.map( ds => ds.x_offset )
-         this.lengthsOfSamplesFiles     = this.data.map( x => x.length );
+         this.data                      = this.data_sources.map( ds => { return { id_log: ds.id_log, raw_data: csvParse(ds.raw_data) }})
+         this.lengthsOfSamplesFiles     = this.data.map( x => x.raw_data.length );
          this.maxLengthOfSamplesFiles   = this.lengthsOfSamplesFiles.reduce( (x,acc) => x > acc ? x : acc );
-         this.minsAndMaxsOfSamplesFiles = this.data.map( x => extent( x, d=>+d.velocity_kmh ) ).reduce((a,acc) => a.concat(acc) , []);
+         this.minsAndMaxsOfSamplesFiles = this.data.map( x => extent( x.raw_data, d=>+d.velocity_kmh ) ).reduce((a,acc) => a.concat(acc) , []);
          this.shortestOfAll             = min(this.minsAndMaxsOfSamplesFiles,d=>d); 
          this.greatestOfAll             = max(this.minsAndMaxsOfSamplesFiles,d=>d);
          this.upFreeSpaceCoeff          = 0.1;
@@ -62,12 +65,10 @@ class SpilbaGraphic extends Component{
 
          this.yAxisGroup  = null
 
-
         // Defining cursor data accesors 
         this.incomingDataLine = line()
             .x((d,i) => { return this.xScale(i) } )
             .y( d    => { return this.yScale(d.velocity_kmh) } )
-
 
          // Bind this to createBarCharts
          this.createBarCharts           = this.createBarCharts.bind(this)
@@ -82,8 +83,11 @@ class SpilbaGraphic extends Component{
 
     shouldComponentUpdate(nextProps, nextState){
         console.log("SpilbaGraphic::shouldComponentUpdate()")
-        const id_channel = this.id_channel
-        return id_channel !== nextProps.id_channel
+        const id_channel  = this.id_channel
+        const active_logs = this.active_logs
+        const wasShifted  = !isEqual(active_logs.map( acl => acl.x_offset ), nextProps.active_logs.map( acl => acl.x_offset ))
+
+        return ( id_channel !== nextProps.id_channel || wasShifted )
     }
 
     componentDidUpdate(){
@@ -93,27 +97,29 @@ class SpilbaGraphic extends Component{
 
     componentWillReceiveProps(nextProps){
         console.log("SpilbaGraphic::componentWillReceiveProps()")
-        const { data_sources, zoom } = nextProps
+        const { data_sources,  zoom } = nextProps
         this.data_sources = data_sources
-        this.xScale.domain(zoom.zoom_x)
+        //this.xScale.domain(zoom.zoom_x)
     }
 
     componentWillUpdate(nextProps, nextState){
         console.log("SpilbaGraphic::componentWillUpdate()")
+        const { active_logs } = nextProps
+        this.active_logs = active_logs
     }
 
     // Continuar desde aca para generar el zoom en el grafico
     createBarCharts(){
+        console.log("SpilbaGraphic::createBarCharts()")
         const node             = this.node
         let incomingDataLine = this.incomingDataLine
         const colors           = this.colors
         const data_sources     = this.data_sources
-        const offsets          = this.offsets
+        const offsets          = this.active_logs.map( acl => acl.x_offset )
         const data             = this.data
 
-        const brush            = this.brush().on("end", brushended)
-        let   idleTimeout      = null
-        const idleDelay        = 350
+        let   idleTimeout    = null
+        const idleDelay      = 350
 
         const xScale         = this.xScale
         const yScale         = this.yScale
@@ -128,14 +134,16 @@ class SpilbaGraphic extends Component{
         const id_channel     = this.id_channel
         const maxLengthOfSamplesFiles = this.maxLengthOfSamplesFiles
         const yRangeMin      = this.yRangeMin
-        const dragBehavior = drag()
-                               .on("start",dragstarted)
-                               .on("drag",dragged)
-                               .on("end",dragend)
+        const brush          = this.brush()
+                                 .on("end", brushended)
+
+        const dragBehavior   = drag()
+                                 .on("start",dragstarted)
+                                 .on("drag",dragging)
+                                 .on("end",dragend)
 
         select(node)
          .html("");
-
 
         select(node)
          .selectAll('path.line')
@@ -143,13 +151,13 @@ class SpilbaGraphic extends Component{
              .enter()
              .append('path')
              .each(function(d,i){
-               
+
                incomingDataLine = line()
                 .x((dat,j) => { return xScale(j + offsets[i] ) } )
                 .y( dat    => { return yScale(dat.velocity_kmh) } )
 
                select(this)
-                .attr('d',incomingDataLine(data[i]))
+                .attr('d',incomingDataLine(d.raw_data))
                 .attr('fill','none')
                 .attr('fill-opacity','0.5')
                 .attr('stroke',colors(i))
@@ -194,30 +202,30 @@ class SpilbaGraphic extends Component{
           .attr('x2', xScale(maxLengthOfSamplesFiles))
           .attr('y2',(height - yOffset));
       
-//        select(node)
-//          .append("g")
-//          .attr("class", "brush")
-//          .call(brush)
+        //select(node)
+          //.append("g")
+          //.attr("class", "brush")
+          //.call(brush)
 
         function brushended(){
-            var s = event.selection;
-            var x_new_values = []
-            var y_new_values = []
+          var s = event.selection;
+          var x_new_values = []
+          var y_new_values = []
 
-            if (!s) {
-              if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay)
-              x_new_values = xInitialDomain
-              xScale.domain(xInitialDomain)
-              yScale.domain(yInitialDomain)
-            } else {
-              x_new_values = [s[0][0], s[1][0]].map(xScale.invert, xScale)
-              xScale.domain(x_new_values)
-              y_new_values = [s[1][1], s[0][1]].map(yScale.invert, yScale)
-              yScale.domain(y_new_values)
-              select(node).select(".brush").call(brush.move, null)
-            }
-            zoom()
-            onChangeZoomX(id_channel,x_new_values)
+          if (!s) {
+            if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay)
+            x_new_values = xInitialDomain
+            xScale.domain(xInitialDomain)
+            yScale.domain(yInitialDomain)
+          } else {
+            x_new_values = [s[0][0], s[1][0]].map(xScale.invert, xScale)
+            xScale.domain(x_new_values)
+            y_new_values = [s[1][1], s[0][1]].map(yScale.invert, yScale)
+            yScale.domain(y_new_values)
+            select(node).select(".brush").call(brush.move, null)
+          }
+          zoom()
+          onChangeZoomX(id_channel,x_new_values)
 
         }
 
@@ -231,7 +239,7 @@ class SpilbaGraphic extends Component{
           select(node).selectAll('path.line')
              .transition(t)
              .each(function(d,i){
-                select(this).attr('d',incomingDataLine(data[i]))
+                select(this).attr('d',incomingDataLine(data[i].raw_data))
             });
         
           yAxisGroup
@@ -255,42 +263,52 @@ class SpilbaGraphic extends Component{
         let finalDragDomainValue   = 0
         let finalDragRangeValue    = 0
         function dragstarted(){
-            console.log("GATRO")
-            console.log(select(this))
             select(this).raise()
+            select(this).style('cursor','w-resize')
             var dx = event.sourceEvent.offsetX,
                 dy = event.sourceEvent.offsetY
 
-                initialDragDomainValue  = xScale.invert(dx)
-                initialDragRangeValue   = yScale.invert(dy)
+            initialDragDomainValue  = xScale.invert(dx)
+            initialDragRangeValue   = yScale.invert(dy)
 
-                console.log("draggedSTART()--")
-                console.log(dx + " inverted... " + initialDragDomainValue)
-                console.log(dy + " inverted... " + initialDragRangeValue)
+            console.log("draggedSTART()--")
+            console.log(dx + " inverted... " + initialDragDomainValue)
+            console.log(dy + " inverted... " + initialDragRangeValue)
         }
 
 
-        function dragged(){
+        function dragging(){
+            select(this).style('cursor','w-resize')
+
             var dx = event.sourceEvent.offsetX,
                 dy = event.sourceEvent.offsetY
+
+            finalDragDomainValue  = xScale.invert(dx)
+            finalDragRangeValue   = yScale.invert(dy)
+            const x_offset = Math.floor(finalDragDomainValue - initialDragDomainValue);
+
+            incomingDataLine = line()
+              .x((dat,j) => { return xScale(j + x_offset) } )
+              .y( dat    => { return yScale(dat.velocity_kmh) } )
+            
+            select(this)
+                .attr('stroke-dasharray','10,5')
+                .attr('d', (d) => incomingDataLine(d.raw_data) )
         }
 
         function dragend(){
             var dx = event.sourceEvent.offsetX,
                 dy = event.sourceEvent.offsetY
 
-                finalDragDomainValue  = xScale.invert(dx)
-                finalDragRangeValue   = yScale.invert(dy)
+            finalDragDomainValue  = xScale.invert(dx)
+            finalDragRangeValue   = yScale.invert(dy)
 
-                console.log("draggedEND()--")
-                console.log(dx + " inverted... " + finalDragDomainValue)
-                console.log(dy + " inverted... " + finalDragRangeValue)
-
-                console.log(`SHIFT EN X: ${Math.floor(finalDragDomainValue - initialDragDomainValue)}`)
-                const x_offset = Math.floor(finalDragDomainValue - initialDragDomainValue);
-
-            var id_log = 10
-            onShiftCurve(id_log,x_offset)
+            const x_offset = Math.floor(finalDragDomainValue - initialDragDomainValue);
+            
+            var id_log = select(this).datum().id_log            
+            select(this)
+                .attr('stroke-dasharray','1,0')
+            onShiftCurve(id_channel,id_log,x_offset)
         }
 
 

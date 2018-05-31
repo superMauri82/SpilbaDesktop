@@ -34,8 +34,8 @@ const GrafContainer = connect(
         onChangeZoomX(id,zoom){
             dispatch(changeXzoomExtent(id,zoom))
         },
-        onShiftCurve(id_log,xOffset){
-            dispatch(shiftCurveX(id_log,xOffset))
+        onShiftCurve(id_channel,id_log,xOffset){
+            dispatch(shiftCurveX(id_channel,id_log,xOffset))
         }
     })
 )(GraficosUI)

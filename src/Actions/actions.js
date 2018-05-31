@@ -18,8 +18,9 @@ export const changeYzoomExtent =
       })
 
 export const shiftCurveX = 
-    (id_log, x_offset) =>
+    (id_channel, id_log, x_offset) =>
       ({
+          id_channel,
           id_log,
           type: C.SHIFT_CURVE_X,
           x_offset
