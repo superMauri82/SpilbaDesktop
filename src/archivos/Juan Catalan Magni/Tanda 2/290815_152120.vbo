@@ -1,0 +1,36 @@
+File created on 29/08/2015 @ 15:21:20
+
+[header]
+satellites
+time
+latitude
+longitude
+velocity kmh
+heading
+height
+Lat. accel
+Long. accel
+Vert. accel
+Gyro X
+Gyro Y
+Gyro Z
+
+[channel units]
+g
+g
+g
+deg/s
+deg/s
+deg/s
+
+[comments]
+ONYX
+(c) SPILBA
+Serial number : 1001
+GPS : U-5.00
+Rate: 10.00 Max: 10.00
+
+[column names]
+sats time lat long velocity kmh heading height Lat. accel Long. accel Vert. accel Gyro x Gyro y Gyro z
+
+[data]

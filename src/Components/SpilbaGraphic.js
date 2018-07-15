@@ -16,9 +16,9 @@ import './SpilbaGraphic.css'
 class SpilbaGraphic extends Component{
     constructor(props){
         super(props)
-        console.log("SpilbaGraphic::constructor()")
         const { 
           id_channel, 
+          channel_name, 
           zoom, 
           height,
           width,                    
@@ -27,9 +27,9 @@ class SpilbaGraphic extends Component{
           onShiftCurve,
           onChangeZoomX } = props
 
-
-         //this.data_sources  = data_sources
          this.active_logs   = active_logs
+         console.log("SpilbaGraphic::constructor()")
+
          this.data_sources  = active_logs
          this.zoom          = zoom
          this.id_channel    = id_channel
@@ -41,18 +41,26 @@ class SpilbaGraphic extends Component{
          this.xOffset                   = 0.05*this.width;
          this.yOffset                   = 0.05*this.height; 
          this.yRangeMin                 = 0.2*this.yOffset; 
-         this.data                      = this.data_sources.map( ds => csvParse(ds.raw_data) )
-         this.data                      = this.data_sources.map( ds => { return { id_log: ds.id_log, raw_data: csvParse(ds.raw_data) }})
-         this.lengthsOfSamplesFiles     = this.data.map( x => x.raw_data.length );
-         this.maxLengthOfSamplesFiles   = this.lengthsOfSamplesFiles.reduce( (x,acc) => x > acc ? x : acc );
-         this.minsAndMaxsOfSamplesFiles = this.data.map( x => extent( x.raw_data, d=>+d.velocity_kmh ) ).reduce((a,acc) => a.concat(acc) , []);
-         this.shortestOfAll             = min(this.minsAndMaxsOfSamplesFiles,d=>d); 
-         this.greatestOfAll             = max(this.minsAndMaxsOfSamplesFiles,d=>d);
-         this.upFreeSpaceCoeff          = 0.1;
-         this.maxOfDomain               = this.greatestOfAll *= ( 1 + this.upFreeSpaceCoeff ); 
+
+         this.data                      = this.data_sources.map( ds => { 
+		                            return { 
+				              id_log:   ds._id,
+				              columns:  ds.data.columns,
+		                              raw_data: ds.data.rows,
+					      channel_name_offset: ds.data.columns.indexOf(channel_name)
+					    }
+	                                  })
+
+         this.minsAndMaxsOfSamplesFiles = this.data.map( x => extent( x.raw_data, d=>+d[x.channel_name_offset] ) ).reduce((a,acc) => a.concat(acc) , []);
+
+         this.shortestOfAll            = min(this.minsAndMaxsOfSamplesFiles,d=>d); 
+         this.greatestOfAll            = max(this.minsAndMaxsOfSamplesFiles,d=>d);
+         this.upFreeSpaceCoeff         = 0.1;
+         this.maxOfDomain              = this.greatestOfAll * ( 1 + this.upFreeSpaceCoeff ); 
+         this.maxLengthOfSamplesFiles  = this.data.reduce( (acc,a) => a.raw_data.length > acc ? a.raw_data.length : acc, 0 )
 
          // Domains
-         this.xInitialDomain            = [0, this.maxLengthOfSamplesFiles ] ;
+	 this.xInitialDomain            = [0, this.maxLengthOfSamplesFiles] ;
          this.yInitialDomain            = [this.shortestOfAll,this.maxOfDomain];
 
          // Chart Scales
@@ -68,7 +76,7 @@ class SpilbaGraphic extends Component{
         // Defining cursor data accesors 
         this.incomingDataLine = line()
             .x((d,i) => { return this.xScale(i) } )
-            .y( d    => { return this.yScale(d.velocity_kmh) } )
+            .y( d    => { return this.yScale(d.velocity_kmh) } ) // modificar esto...
 
          // Bind this to createBarCharts
          this.createBarCharts           = this.createBarCharts.bind(this)
@@ -112,11 +120,12 @@ class SpilbaGraphic extends Component{
     createBarCharts(){
         console.log("SpilbaGraphic::createBarCharts()")
         const node             = this.node
-        let incomingDataLine = this.incomingDataLine
+        let incomingDataLine   = this.incomingDataLine
         const colors           = this.colors
         const data_sources     = this.data_sources
         const offsets          = this.active_logs.map( acl => acl.x_offset )
         const data             = this.data
+	const channel          = data.reduce((acc,d) => d.channel_name_offset,-1)
 
         let   idleTimeout    = null
         const idleDelay      = 350
@@ -154,7 +163,7 @@ class SpilbaGraphic extends Component{
 
                incomingDataLine = line()
                 .x((dat,j) => { return xScale(j + offsets[i] ) } )
-                .y( dat    => { return yScale(dat.velocity_kmh) } )
+                .y( dat    => { return yScale(parseFloat(dat[channel])) } )
 
                select(this)
                 .attr('d',incomingDataLine(d.raw_data))
@@ -165,7 +174,6 @@ class SpilbaGraphic extends Component{
                 .attr('id',() => `curva_${i}`)
                 .attr('class','line')
                 .call(dragBehavior);
-
             })
 
         select(node)

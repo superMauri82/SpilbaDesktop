@@ -1,6 +1,6 @@
 import {Logs} from './db';
 
-Logs.info().then(console.log).catch(console.log);
+//Logs.info().then(console.log).catch(console.log);
 
 export default {
   

@@ -1,0 +1,6 @@
+Errors Codes
+
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:0,g_Resync:0.g_ErrorLostAccelBuff:0.
+

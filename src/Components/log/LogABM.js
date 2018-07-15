@@ -22,7 +22,7 @@ export default class LogABMContainer extends React.Component {
       log: null
     };
     this.toggleCreation = this.toggleCreation.bind(this);
-    this.toggleDetail = this.toggleDetail.bind(this);
+    this.toggleDetail   = this.toggleDetail.bind(this);
     this.handleOnSelect = this.handleOnSelect.bind(this);
   }
   

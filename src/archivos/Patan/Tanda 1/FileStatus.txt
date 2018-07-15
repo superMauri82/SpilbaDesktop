@@ -1,0 +1,78 @@
+Errors Codes
+1,8,9,8,9,8,9,8,9,8,9,8,9,9,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,14,40,39,36,41,38,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:2,g_Resync:0.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+1,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,9,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:196,g_Resync:0.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+
+Status Codes 
+
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:31,g_Resync:1.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+1,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:0,g_Resync:0.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+1,17,12,13,8,9,17,12,13,17,12,13,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,17,12,13,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,53,40,39,36,41,38,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:5,g_Resync:1.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+1,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:3,g_Resync:0.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+1,17,12,13,8,9,17,12,13,17,12,13,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,12,13,12,13,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,82,40,39,36,41,38,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:411,g_Resync:1.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+
+Status Codes 
+
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:1,g_Resync:1.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+1,17,12,13,8,9,17,12,13,17,12,13,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,9,17,12,13,8,9,17,12,13,8,9,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,12,13,17,35,40,39,36,41,38,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:2,g_Resync:1.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+1,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:0,g_Resync:0.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+1,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,9,8,97,40,39,36,41,38,
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:0,g_Resync:1.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:0,g_Resync:0.g_ErrorLostAccelBuff:0.
+
+Errors Codes
+
+Status Codes 
+40,39,36,41,38,
+UARTRxError:0,ACCELRxError:0,ErrorLostSentence:0,g_Resync:0.g_ErrorLostAccelBuff:0.
+
