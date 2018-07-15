@@ -11,7 +11,7 @@ export default () => (
         <div className="wrapper">
             <div className="container">
                 <hr/>
-                <GrafContainer store={store} />,
+                <GrafContainer store={store} />
                 <hr/>
             </div>
         </div>

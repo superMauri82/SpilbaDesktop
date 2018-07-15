@@ -1,13 +1,14 @@
 /* eslint_disable */
 import { v4 } from 'uuid'
 const id_05 = v4()
+const id_06 = v4()
 
 var initialState = {
     active_logs: [
         {
 	  _id:  "abcd234-423423-dsdsf-fsdfds",
 	  _rev: "abcd234-423423-dsdsf-fsdfds",
-          name_log: 'Pista 1',
+          name_log: 'Pista Seca',
           color: 'green',
           x_offset: 0
         },
@@ -274,11 +275,20 @@ var initialState = {
           id_: id_05,
           channel_name: 'velocity kmh',
           channel_function: x => x
-        }    
+        },    
+        {
+          id_: id_06,
+          channel_name: 'Long. accel',
+          channel_function: x => x
+        }
     ],
     active_channels: [
         {
           id_: id_05,
+          zoom: { zoom_x : [ 10, 20 ] , zoom_y : [ 100, 200 ] }
+        },
+        {
+          id_: id_06,
           zoom: { zoom_x : [ 10, 20 ] , zoom_y : [ 100, 200 ] }
         }
     ]

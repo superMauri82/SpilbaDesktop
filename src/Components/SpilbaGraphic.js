@@ -17,7 +17,7 @@ class SpilbaGraphic extends Component{
     constructor(props){
         super(props)
         const { 
-          id_channel, 
+          id_, 
           channel_name, 
           zoom, 
           height,
@@ -32,7 +32,7 @@ class SpilbaGraphic extends Component{
 
          this.data_sources  = active_logs
          this.zoom          = zoom
-         this.id_channel    = id_channel
+         this.id_channel    = id_
          this.onShiftCurve  = onShiftCurve
          this.onChangeZoomX = onChangeZoomX
 
@@ -51,13 +51,20 @@ class SpilbaGraphic extends Component{
 					    }
 	                                  })
 
-         this.minsAndMaxsOfSamplesFiles = this.data.map( x => extent( x.raw_data, d=>+d[x.channel_name_offset] ) ).reduce((a,acc) => a.concat(acc) , []);
+
+	 this.channel = this.data
+		            .reduce((acc,d) => d.channel_name_offset,-1)
+
+         this.minsAndMaxsOfSamplesFiles = this.data
+		                              .map( x => extent( x.raw_data, d=>+d[x.channel_name_offset] ) )
+		                              .reduce((a,acc) => a.concat(acc) , []);
 
          this.shortestOfAll            = min(this.minsAndMaxsOfSamplesFiles,d=>d); 
          this.greatestOfAll            = max(this.minsAndMaxsOfSamplesFiles,d=>d);
          this.upFreeSpaceCoeff         = 0.1;
          this.maxOfDomain              = this.greatestOfAll * ( 1 + this.upFreeSpaceCoeff ); 
-         this.maxLengthOfSamplesFiles  = this.data.reduce( (acc,a) => a.raw_data.length > acc ? a.raw_data.length : acc, 0 )
+         this.maxLengthOfSamplesFiles  = this.data
+		                             .reduce( (acc,a) => a.raw_data.length > acc ? a.raw_data.length : acc, 0 )
 
          // Domains
 	 this.xInitialDomain            = [0, this.maxLengthOfSamplesFiles] ;
@@ -76,7 +83,7 @@ class SpilbaGraphic extends Component{
         // Defining cursor data accesors 
         this.incomingDataLine = line()
             .x((d,i) => { return this.xScale(i) } )
-            .y( d    => { return this.yScale(d.velocity_kmh) } ) // modificar esto...
+            .y( d    => { return this.yScale(parseFloat(d[this.channel])) } )
 
          // Bind this to createBarCharts
          this.createBarCharts           = this.createBarCharts.bind(this)
@@ -105,9 +112,10 @@ class SpilbaGraphic extends Component{
 
     componentWillReceiveProps(nextProps){
         console.log("SpilbaGraphic::componentWillReceiveProps()")
+	console.log(nextProps)
         const { data_sources,  zoom } = nextProps
         this.data_sources = data_sources
-        //this.xScale.domain(zoom.zoom_x)
+        this.xScale.domain(zoom.zoom_x)
     }
 
     componentWillUpdate(nextProps, nextState){
@@ -125,8 +133,8 @@ class SpilbaGraphic extends Component{
         const data_sources     = this.data_sources
         const offsets          = this.active_logs.map( acl => acl.x_offset )
         const data             = this.data
-	const channel          = data.reduce((acc,d) => d.channel_name_offset,-1)
-
+	const channel          = this.channel 
+		                
         let   idleTimeout    = null
         const idleDelay      = 350
 
@@ -173,7 +181,7 @@ class SpilbaGraphic extends Component{
                 .attr('stroke-width','3')
                 .attr('id',() => `curva_${i}`)
                 .attr('class','line')
-                .call(dragBehavior);
+                //.call(dragBehavior);
             })
 
         select(node)
@@ -210,10 +218,10 @@ class SpilbaGraphic extends Component{
           .attr('x2', xScale(maxLengthOfSamplesFiles))
           .attr('y2',(height - yOffset));
       
-        //select(node)
-          //.append("g")
-          //.attr("class", "brush")
-          //.call(brush)
+        select(node)
+          .append("g")
+          .attr("class", "brush")
+          .call(brush)
 
         function brushended(){
           var s = event.selection;
@@ -247,7 +255,7 @@ class SpilbaGraphic extends Component{
           select(node).selectAll('path.line')
              .transition(t)
              .each(function(d,i){
-                select(this).attr('d',incomingDataLine(data[i].raw_data))
+                select(this).attr('d',incomingDataLine(data[i].raw_data)) // modificar esto...
             });
         
           yAxisGroup
@@ -297,7 +305,7 @@ class SpilbaGraphic extends Component{
 
             incomingDataLine = line()
               .x((dat,j) => { return xScale(j + x_offset) } )
-              .y( dat    => { return yScale(dat.velocity_kmh) } )
+              .y( dat    => { return yScale(parseFloat(dat[channel])) } )
             
             select(this)
                 .attr('stroke-dasharray','10,5')
