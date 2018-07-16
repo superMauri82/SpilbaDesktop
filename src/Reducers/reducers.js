@@ -7,16 +7,18 @@ import C from './../Actions/Constants'
 export const in_session_logs = (state=[], action) =>{
     switch (action.type){
       case (C.ADD_IN_SESSION_LOG):
+	console.log(action)
         return [ ...state,
                  {
-                     id_log: v4(),
-                     name_log: action.log,
-                     raw_data: action.raw_data
+			 _id: action._id,
+			 _rev: action._rev,
+			 data: action.log.data,
+			 tags: action.log.tags
                  }
         ]
       case (C.REMOVE_IN_SESSION_LOG):
         return state.filter( log =>
-              log.id_log !== action.id_log
+              log.id_ !== action.id_log
         )
 
       default:
@@ -30,7 +32,8 @@ export const active_logs = (state=[], action) =>{
         return [
             ...state,
             {
-              id_log: action.id_log,
+              _id: action._id,
+              _rev: action._rev,
               name_log: action.name_log,
               color: 'red',
               x_offset: 0

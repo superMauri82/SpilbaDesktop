@@ -25,3 +25,35 @@ export const shiftCurveX =
           type: C.SHIFT_CURVE_X,
           x_offset
       })
+
+// LOGS Action
+export const activateLog = 
+    (id,rev) =>
+      ({
+          type : C.ACTIVATE_LOG,
+	  _id  : id,
+	  _rev : rev,
+          name_log: 'Pista Seca',
+          color: 'green',
+          x_offset: 0
+      })
+
+// LOGS Action
+export const addLog = 
+    (id,rev,log) =>
+      ({
+          type : C.ADD_IN_SESSION_LOG,
+	  log  : log,
+	  _id  : id,
+	  _rev : rev,
+      })
+
+// LOGS Action
+export const deleteLog = 
+    (id_channel, id_log, x_offset) =>
+      ({
+          id_channel,
+          id_log,
+          type: C.SHIFT_CURVE_X,
+          x_offset
+      })
