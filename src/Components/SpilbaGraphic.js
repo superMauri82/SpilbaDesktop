@@ -16,78 +16,12 @@ import './SpilbaGraphic.css'
 class SpilbaGraphic extends Component{
     constructor(props){
         super(props)
-        const { 
-          id_, 
-          channel_name, 
-          zoom, 
-          height,
-          width,                    
-          upFreeSpaceCoeff,          
-          active_logs,
-          onShiftCurve,
-          onChangeZoomX } = props
-
-         this.active_logs   = active_logs
-         console.log("SpilbaGraphic::constructor()")
-
-         this.data_sources  = active_logs
-         this.zoom          = zoom
-         this.id_channel    = id_
-         this.onShiftCurve  = onShiftCurve
-         this.onChangeZoomX = onChangeZoomX
-
-         this.height                    = height || 300;        
-         this.width                     = width  || 960;       
-         this.xOffset                   = 0.05*this.width;
-         this.yOffset                   = 0.05*this.height; 
-         this.yRangeMin                 = 0.2*this.yOffset; 
-
-         this.data                      = this.data_sources.map( ds => { 
-		                            return { 
-				              id_log:   ds._id,
-				              columns:  ds.data.columns,
-		                              raw_data: ds.data.rows,
-					      channel_name_offset: ds.data.columns.indexOf(channel_name)
-					    }
-	                                  })
-
-
-	 this.channel = this.data
-		            .reduce((acc,d) => d.channel_name_offset,-1)
-
-         this.minsAndMaxsOfSamplesFiles = this.data
-		                              .map( x => extent( x.raw_data, d=>+d[x.channel_name_offset] ) )
-		                              .reduce((a,acc) => a.concat(acc) , []);
-
-         this.shortestOfAll            = min(this.minsAndMaxsOfSamplesFiles,d=>d); 
-         this.greatestOfAll            = max(this.minsAndMaxsOfSamplesFiles,d=>d);
-         this.upFreeSpaceCoeff         = 0.1;
-         this.maxOfDomain              = this.greatestOfAll * ( 1 + this.upFreeSpaceCoeff ); 
-         this.maxLengthOfSamplesFiles  = this.data
-		                             .reduce( (acc,a) => a.raw_data.length > acc ? a.raw_data.length : acc, 0 )
-
-         // Domains
-	 this.xInitialDomain            = [0, this.maxLengthOfSamplesFiles] ;
-         this.yInitialDomain            = [this.shortestOfAll,this.maxOfDomain];
-
-         // Chart Scales
-         this.xScale = scaleLinear().clamp(true).domain(this.xInitialDomain).range([this.xOffset,(this.width+this.xOffset)]);
-         this.yScale = scaleLinear().clamp(true).domain(this.yInitialDomain).range([(this.height - this.yOffset),this.yRangeMin]);
-         this.colors = scaleOrdinal(schemeCategory10);
-
-         this.xAxis = axisBottom(this.xScale).ticks(12)
-         this.yAxis = axisLeft(this.yScale).tickSize(-this.width)
-
-         this.yAxisGroup  = null
-
-        // Defining cursor data accesors 
-        this.incomingDataLine = line()
-            .x((d,i) => { return this.xScale(i) } )
-            .y( d    => { return this.yScale(parseFloat(d[this.channel])) } )
 
          // Bind this to createBarCharts
          this.createBarCharts           = this.createBarCharts.bind(this)
+	 this.calculateChartValues      = this.calculateChartValues.bind(this)
          this.brush                     = brush
+	 this.calculateChartValues(props) 
 
     }
 
@@ -111,22 +45,90 @@ class SpilbaGraphic extends Component{
     }
 
     componentWillReceiveProps(nextProps){
-        console.log("SpilbaGraphic::componentWillReceiveProps()")
-	console.log(nextProps)
-        const { data_sources,  zoom } = nextProps
-        this.data_sources = data_sources
-        this.xScale.domain(zoom.zoom_x)
+	this.calculateChartValues(nextProps) 
     }
 
     componentWillUpdate(nextProps, nextState){
         console.log("SpilbaGraphic::componentWillUpdate()")
-        const { active_logs } = nextProps
-        this.active_logs = active_logs
+    }
+
+    calculateChartValues(props){
+        const { 
+          id_, 
+          channel_name, 
+          zoom, 
+          height,
+          width,                    
+          upFreeSpaceCoeff,          
+          active_logs,
+          onShiftCurve,
+          onChangeZoomX } = props
+
+
+         this.data_sources  = active_logs
+         this.active_logs   = this.data_sources
+         this.zoom          = zoom
+         this.id_channel    = id_
+         this.onShiftCurve  = onShiftCurve
+         this.onChangeZoomX = onChangeZoomX
+         this.channel_name  = channel_name
+
+         this.height                    = height || 300;        
+         this.width                     = width  || 960;       
+         this.xOffset                   = 0.05*this.width;
+         this.yOffset                   = 0.05*this.height; 
+         this.yRangeMin                 = 0.2*this.yOffset; 
+
+         this.data                      = this.data_sources.map( ds => { 
+		                            return { 
+				              id_log:   ds._id,
+				              columns:  ds.data.columns,
+		                              raw_data: ds.data.rows,
+					      channel_name_offset: ds.data.columns.indexOf(this.channel_name)
+					    }
+	                                  })
+
+
+	 this.channel = this.data
+		            .reduce((acc,d) => d.channel_name_offset,-1)
+
+         this.minsAndMaxsOfSamplesFiles = this.data
+		                              .map( x => extent( x.raw_data, d=>+d[x.channel_name_offset] ) )
+		                              .reduce((a,acc) => a.concat(acc) , []);
+
+         this.shortestOfAll            = min(this.minsAndMaxsOfSamplesFiles,d=>d); 
+         this.greatestOfAll            = max(this.minsAndMaxsOfSamplesFiles,d=>d);
+         this.upFreeSpaceCoeff         = 0.1;
+         this.maxOfDomain              = this.greatestOfAll * ( 1 + this.upFreeSpaceCoeff ); 
+         this.maxLengthOfSamplesFiles  = this.data
+		                             .reduce( (acc,a) => a.raw_data.length > acc ? a.raw_data.length : acc, 0 )
+
+         // Domains
+	 this.xInitialDomain            = [0, this.maxLengthOfSamplesFiles] ;
+         this.yInitialDomain            = [this.shortestOfAll,this.maxOfDomain];
+
+         // Chart Scales
+	 const xDomain = (this.zoom.zoom_x) ? this.zoom.zoom_x : this.xInitialDomain
+	 const yDomain = (this.zoom.zoom_y) ? this.zoom.zoom_y : this.yInitialDomain
+         this.xScale = scaleLinear().clamp(true).domain(xDomain).range([this.xOffset,(this.width+this.xOffset)]);
+         this.yScale = scaleLinear().clamp(true).domain(yDomain).range([(this.height - this.yOffset),this.yRangeMin]);
+         this.colors = scaleOrdinal(schemeCategory10);
+
+         this.xAxis = axisBottom(this.xScale).ticks(12)
+         this.yAxis = axisLeft(this.yScale).tickSize(-this.width)
+
+         this.yAxisGroup  = null
+
+        // Defining cursor data accesors 
+        this.incomingDataLine = line()
+            .x((d,i) => { return this.xScale(i) } )
+            .y( d    => { return this.yScale(parseFloat(d[this.channel])) } )
     }
 
     // Continuar desde aca para generar el zoom en el grafico
     createBarCharts(){
         console.log("SpilbaGraphic::createBarCharts()")
+	console.log(this.data_sources)
         const node             = this.node
         let incomingDataLine   = this.incomingDataLine
         const colors           = this.colors

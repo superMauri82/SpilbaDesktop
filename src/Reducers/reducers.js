@@ -6,8 +6,12 @@ import C from './../Actions/Constants'
 
 export const in_session_logs = (state=[], action) =>{
     switch (action.type){
+      case (C.ADD_IN_SESSION_LOGS):
+        return [
+		...state,
+		...action.logs.filter( (l,i) => i < 6 )
+	]
       case (C.ADD_IN_SESSION_LOG):
-	console.log(action)
         return [ ...state,
                  {
 			 _id: action._id,
@@ -28,6 +32,17 @@ export const in_session_logs = (state=[], action) =>{
 
 export const active_logs = (state=[], action) =>{
     switch (action.type){
+      case (C.ADD_IN_SESSION_LOGS): 
+        return [
+		...state,
+		...action.logs.filter( (l,i) => i < 6 ).map( l => { return{
+			_id: l._id,
+			_rev: l._rev,
+			name_log: 'noName',
+			color: 'pink',
+			x_offset: 0
+		}})
+	]
       case (C.ACTIVATE_LOG):{
         return [
             ...state,
