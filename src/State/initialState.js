@@ -11,6 +11,11 @@ var initialState = {
     ],
     channels: [
         {
+          id_: id_07,
+          channel_name: 'Lat. accel',
+          channel_function: x => x
+        },
+        {
           id_: id_05,
           channel_name: 'velocity kmh',
           channel_function: x => x
@@ -19,24 +24,19 @@ var initialState = {
           id_: id_06,
           channel_name: 'Long. accel',
           channel_function: x => x
-        },
-        {
-          id_: id_07,
-          channel_name: 'Lat. accel',
-          channel_function: x => x
         }
     ],
     active_channels: [
+        {
+          id_: id_07,
+          zoom: { }
+        },
         {
           id_: id_05,
           zoom: { }
         },
         {
           id_: id_06,
-          zoom: { }
-        },
-        {
-          id_: id_07,
           zoom: { }
         }
     ]
