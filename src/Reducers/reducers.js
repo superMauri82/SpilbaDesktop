@@ -8,7 +8,6 @@ export const in_session_logs = (state=[], action) =>{
     switch (action.type){
       case (C.ADD_IN_SESSION_LOGS):
         return [
-		...state,
 		...action.logs.filter( (l,i) => i < 6 )
 	]
       case (C.ADD_IN_SESSION_LOG):
@@ -34,7 +33,6 @@ export const active_logs = (state=[], action) =>{
     switch (action.type){
       case (C.ADD_IN_SESSION_LOGS): 
         return [
-		...state,
 		...action.logs.filter( (l,i) => i < 6 ).map( l => { return{
 			_id: l._id,
 			_rev: l._rev,
