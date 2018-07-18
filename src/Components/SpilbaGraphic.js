@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { changeXzoomExtent } from './../Actions/actions'
 import { min, max, extent } from 'd3-array'
-import { scaleLinear, scaleOrdinal } from 'd3-scale'
+import { scaleLinear } from 'd3-scale'
 import { schemeCategory10 } from 'd3-scale-chromatic'
 import { select, event } from 'd3-selection'
 import { brush } from 'd3-brush'
@@ -56,6 +56,7 @@ class SpilbaGraphic extends Component{
         const { 
           id_, 
           channel_name, 
+	  colors,
           zoom, 
           height,
           width,                    
@@ -67,6 +68,7 @@ class SpilbaGraphic extends Component{
 
          this.data_sources  = active_logs
          this.active_logs   = this.data_sources
+         this.colors        = colors
          this.zoom          = zoom
          this.id_channel    = id_
          this.onShiftCurve  = onShiftCurve
@@ -112,7 +114,6 @@ class SpilbaGraphic extends Component{
 	 const yDomain = (this.zoom.zoom_y) ? this.zoom.zoom_y : this.yInitialDomain
          this.xScale = scaleLinear().clamp(true).domain(xDomain).range([this.xOffset,(this.width+this.xOffset)]);
          this.yScale = scaleLinear().clamp(true).domain(yDomain).range([(this.height - this.yOffset),this.yRangeMin]);
-         this.colors = scaleOrdinal(schemeCategory10);
 
          this.xAxis = axisBottom(this.xScale).ticks(12)
          this.yAxis = axisLeft(this.yScale).tickSize(-this.width)

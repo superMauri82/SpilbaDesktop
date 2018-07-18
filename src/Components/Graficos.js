@@ -9,6 +9,7 @@ import isUndefined from 'lodash/isUndefined'
 import GraphicShifter from './GraphicShifter'
 import {Logs} from '../data/index';
 import { schemeCategory10 } from 'd3-scale-chromatic'
+import { scaleOrdinal } from 'd3-scale'
 
 
 class GraficosUI extends React.Component{
@@ -27,6 +28,7 @@ class GraficosUI extends React.Component{
         this.onChangeZoomX   = onChangeZoomX
         this.onShiftCurve    = onShiftCurve
         this.fetchActiveLogs = fetchActiveLogs 
+	this.colors          = scaleOrdinal(schemeCategory10)
     }
     componentDidMount(){
       console.log('GraficosUI::componentDidMount()')
@@ -50,8 +52,8 @@ class GraficosUI extends React.Component{
     render(){
       return (
         <div className="GraficosUI_LIST">
-          <GraphicShifter  colors={ this.active_logs.map( acl => ({ color: acl.color, id_log: acl._id, name_log: acl.name_log}))} />
-          { this.active_channels.map( (ach,i) => <SpilbaGraphic key={i} {...ach} active_logs={this.active_logs} onChangeZoomX={this.onChangeZoomX} onShiftCurve={this.onShiftCurve} /> ) }
+          <GraphicShifter  colors={ this.active_logs.map( (acl,i) => ({ color: this.colors(i), id_log: acl._id, name_log: acl.name_log}))} />
+          { this.active_channels.map( (ach,i) => <SpilbaGraphic key={i} {...ach} active_logs={this.active_logs} onChangeZoomX={this.onChangeZoomX} onShiftCurve={this.onShiftCurve} colors={this.colors}/> ) }
         </div>
      )}
 }
