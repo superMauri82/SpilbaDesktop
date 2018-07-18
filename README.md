@@ -53,7 +53,7 @@ Al correr los comandos previos, debería verse la App:
 
 
 ### Status al 18/07/2018
-En este momento, la App es capaz de interpretar archivos .vbo, guardarlos en base de datos. También permite TAGgear cada archivo para su posterior búsqueda. Tanto el zoom como el shift horizontal, son funcionales. Programáticamente se deja deshabilitada la funcionalidad de SHIFT. Es necesario encontrar o definir una manera de pasar de modo SHIFT a modo ZOOM. 
+En este momento, la App es capaz de interpretar archivos .vbo, guardarlos en base de datos. También permite TAGgear cada archivo para su posterior búsqueda. Tanto el zoom como el shift horizontal, son funcionales. Programáticamente se deja deshabilitada la funcionalidad de SHIFT. Es necesario encontrar o definir una manera de pasar de modo SHIFT a modo ZOOM. Al día de hoy, se muestran 3 canales harcodeados. Los datos surgen de los archivos, pero los canales están predefinidos en el código.
 
 ### Status al 25/05/2018
 Se incorpora el componente que describe las líneas dibujadas en cada canal. Este habilitará el modo SHIFT para permitir el corrimiento en el eje X de la curva seleccionada.
