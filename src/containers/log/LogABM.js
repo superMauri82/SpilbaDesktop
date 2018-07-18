@@ -15,8 +15,6 @@ export default class LogABMContainer extends React.Component {
     Logs.create(log).then(() => {
       Logs.getAll().then((logs) => {
         this.setState(Object.assign({},this.state,{logs}));
-	console.log(`LogABMContainer: ${logs}`)
-	console.log(logs)
       })
     })
   };
@@ -28,7 +26,6 @@ export default class LogABMContainer extends React.Component {
   };
   
   handleOnDelete = (log) => {
-    console.log(log);
   };
 
   render = () => <LogABM

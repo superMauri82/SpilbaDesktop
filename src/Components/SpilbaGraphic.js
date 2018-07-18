@@ -129,7 +129,6 @@ class SpilbaGraphic extends Component{
     // Continuar desde aca para generar el zoom en el grafico
     createBarCharts(){
         console.log("SpilbaGraphic::createBarCharts()")
-	console.log(this.data_sources)
         const node             = this.node
         let incomingDataLine   = this.incomingDataLine
         const colors           = this.colors

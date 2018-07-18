@@ -8,19 +8,19 @@ import {
 } from 'reactstrap';
 import GenericActions from '../GenericActions';
 
-function LogListingItem({log,selected,onSelect,onDelete,onEdit}) {
+function LogListingItem({log,selected,onSelect,onDelete,onEdit,onActivate}) {
   return (
     <tr onClick={() => selected ? '' : onSelect(log)} >
-      <th scope="row"><small>{log._id}</small></th>
+      <td scope="row">{log.filename}</td>
       <td>{log.data.board + ' ' + log.data.version}</td>
       <td>{log.tags.map((tag,index) => <Badge key={index} color="secondary" pill>{tag}</Badge> )}</td>
-      <td><GenericActions element={log} onView={onSelect} onEdit={onEdit} onDelete={onDelete} /></td>
+      <td><GenericActions element={log} onView={onSelect} onEdit={onEdit} onDelete={onDelete} onActivate={onActivate} /></td>
     </tr>
   );
  }
 
 
-function LogListing({logs,selected, onSelect, onDelete, onEdit}) {
+function LogListing({logs,selected, onSelect, onDelete, onEdit, onActivate}) {
     return (
       <Card>
         <CardHeader>Logs</CardHeader>
@@ -28,7 +28,7 @@ function LogListing({logs,selected, onSelect, onDelete, onEdit}) {
           <Table striped hover size="sm" >
             <thead>
               <tr>
-                <th>#</th>
+                <th>Name</th>
                 <th>Source</th>
                 <th>Tags</th>
                 <th>Actions</th>
@@ -37,6 +37,7 @@ function LogListing({logs,selected, onSelect, onDelete, onEdit}) {
             <tbody>
               {logs.map((log)=> <LogListingItem
                 key={log._id}
+                filename={log.filename}
                 log={log}
                 selected={log === selected}
                 onSelect={onSelect}

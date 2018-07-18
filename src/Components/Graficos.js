@@ -59,8 +59,7 @@ class GraficosUI extends React.Component{
 }
 
 const GrafContainer = connect(
-    state => { console.log('ASTUR'); console.log(state); return {
-
+    state => ({ 
         active_logs: zipWith(
                        sortBy([...state.in_session_logs], isl => isl._id),
                        sortBy([...state.active_logs],acl => acl._id), 
@@ -73,7 +72,7 @@ const GrafContainer = connect(
                        (chn,ach) => ({ ...chn, ...ach })
                      )
 
-    }}
+    })
     ,
     dispatch => ({
         fetchActiveLogs(){

@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import TagsABM from "../tags/TagABM";
 
-const LogCreation = ({error,boards,board,onBoardChange,onFileChange,tags,onTagCreation,onTagDeletion,onSave}) => {
+const LogCreation = ({error,boards,board,onBoardChange,onFileChange,tags,onTagCreation,onTagDeletion,onSave,filename}) => {
   const errorMSG = error !== false ? <b>{error}</b> : '';
   return (
     <Form>

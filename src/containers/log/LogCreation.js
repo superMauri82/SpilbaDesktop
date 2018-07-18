@@ -8,6 +8,7 @@ const DefaultError = 'Please, fill the form';
 const DefaultState = {
   board: null,
   log: null,
+  filename: null,
   tags: []
 };
 
@@ -37,11 +38,12 @@ class LogCreationContainer extends React.Component {
   handleFileChange = async file => {
     if(file) {
       this.setState(Object.assign({},{log:await fromFileFactory(this.state.board,file)}));
+      this.setState(Object.assign({},{filename:file.name}));
     }
   };
 
   handleOnSave = event => {
-    this.props.onCreate({data:this.state.log,tags:this.state.tags});
+    this.props.onCreate({data:this.state.log,tags:this.state.tags,filename:this.state.filename});
     this.setState(Object.assign({},DefaultState));
   };
   
@@ -65,6 +67,7 @@ class LogCreationContainer extends React.Component {
     return <LogCreation
       boards={Boards}
       board={this.state.board}
+      filename={this.state.filename}
       tags={this.state.tags}
       error={error}
       onSave={this.handleOnSave.bind(this)}
