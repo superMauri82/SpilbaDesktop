@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "electron": "^1.7.9",
+    "electron-packager": "^12.1.0",
     "foreman": "^2.0.0",
     "pouchdb-debug": "^6.4.3",
     "react-scripts": "0.8.5"
