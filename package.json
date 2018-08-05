@@ -1,10 +1,31 @@
 {
-  "name": "SpilbaRacing",
+  "name": "Spilba",
   "version": "0.1.0",
   "private": true,
+  "author": "Spilba",
+  "description": "Software Companion Tool for Spilba Onboard System",
+  "license": "MIT",
+  "build":{
+    "appId": "com.example.spilbadesktop",
+    "productName": "......",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "linux": {
+      "category": "Utils",
+      "packageCategory": "utils",
+      "icon": "assets/icons",
+      "target": ["deb"],
+      "category": "utils",
+      "target": ["deb"],
+      "synopsis": "Race Performance Analysis Tool",
+      "maintainer": "Spilba <help@spilba.com>"
+    }
+  },
   "devDependencies": {
     "electron": "^1.7.9",
-    "electron-packager": "^12.1.0",
+    "electron-builder": "^20.26.1",
     "foreman": "^2.0.0",
     "pouchdb-debug": "^6.4.3",
     "react-scripts": "0.8.5"
@@ -29,14 +50,18 @@
     "simple-line-icons": "^2.4.1",
     "uuid": "^3.2.1"
   },
-  "homepage": "./",
-  "main": "src/electron-starter.js",
+  "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "dev": "nf start -p 3000"
-  }
+    "preelectron-pack": "yarn build",
+    "electron-pack": "build --em.main=build/electron.js",
+    "dev": "nf start -p 3000",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "homepage": "./"
 }
