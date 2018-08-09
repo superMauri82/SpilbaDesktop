@@ -28,7 +28,10 @@ npm run electron
 ```
 
 Al correr los comandos previos, debería verse la App:
-![Captura de Pantalla APP Spilba](src/images/CAPTURA_SPILBA_1.png)
+![Captura de Pantalla APP Spilba](src/images/CAPTURA_SPILBA_4.png)
+
+![Captura de Pantalla APP Spilba](src/images/CAPTURA_SPILBA_5.png)
+
 
 ### Road Map 1° Versión Funcional
 - Tracks
@@ -50,7 +53,11 @@ Al correr los comandos previos, debería verse la App:
 - Position Index
 - Zoom Eje-Y
 - Filtros Digitales
+- App Auto Upgrade
+- Publicidad productos Spilba en App
 
+### Status al 08/08/2018
+Se logro generar ejecutable .deb (Linux). Se descartaron fallas en parseo de .vbo's. Se agrego descripcion de cada channel dibujado en Dashboard.
 
 ### Status al 18/07/2018
 En este momento, la App es capaz de interpretar archivos .vbo, guardarlos en base de datos. También permite TAGgear cada archivo para su posterior búsqueda. Tanto el zoom como el shift horizontal, son funcionales. Programáticamente se deja deshabilitada la funcionalidad de SHIFT. Es necesario encontrar o definir una manera de pasar de modo SHIFT a modo ZOOM. Al día de hoy, se muestran 3 canales harcodeados. Los datos surgen de los archivos, pero los canales están predefinidos en el código.
