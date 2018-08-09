@@ -4,9 +4,11 @@ import {Logs} from './db';
 
 export default {
   
-  getAll: () => Logs.allDocs({include_docs:true}).then((resp) => { return resp.rows.map(row => row.doc)}),
+  getAll: () => Logs.allDocs({include_docs:true}).then((resp) => { return resp.rows.map(row => row.doc).filter( lg => !lg._deleted )}),
   
-  create: (log) => Logs.post(log)
-  
+  create: (log) => Logs.post(log),
+
+  delete: (log) => Logs.get(log._id).then( doc => Logs.remove(doc) ).catch( err => console.log(err))
+ 
 };
 

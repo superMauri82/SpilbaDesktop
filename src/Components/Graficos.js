@@ -28,7 +28,7 @@ class GraficosUI extends React.Component{
         this.onChangeZoomX   = onChangeZoomX
         this.onShiftCurve    = onShiftCurve
         this.fetchActiveLogs = fetchActiveLogs 
-	this.colors          = scaleOrdinal(schemeCategory10)
+	    this.colors          = scaleOrdinal(schemeCategory10)
     }
     componentDidMount(){
       console.log('GraficosUI::componentDidMount()')
@@ -52,7 +52,9 @@ class GraficosUI extends React.Component{
     render(){
       return (
         <div className="GraficosUI_LIST">
-          <GraphicShifter  colors={ this.active_logs.map( (acl,i) => ({ color: this.colors(i), id_log: acl._id, name_log: acl.name_log}))} />
+              { console.log('render Graficos')}
+              { console.log(this.active_logs)}
+          <GraphicShifter  colors={ this.active_logs.map( (acl,i) => ({ color: this.colors(i), id_log: acl._id, name_log: acl.filename}))} />
           { this.active_channels.map( (ach,i) => <SpilbaGraphic key={i} {...ach} active_logs={this.active_logs} onChangeZoomX={this.onChangeZoomX} onShiftCurve={this.onShiftCurve} colors={this.colors}/> ) }
         </div>
      )}
@@ -77,6 +79,8 @@ const GrafContainer = connect(
     dispatch => ({
         fetchActiveLogs(){
            Logs.getAll().then((logs) => {
+             console.log('dispatch en GrafContainer')
+             console.log(logs)
              dispatch(addLogs(logs))
            }
          )

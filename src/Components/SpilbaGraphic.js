@@ -15,14 +15,13 @@ import './SpilbaGraphic.css'
 
 class SpilbaGraphic extends Component{
     constructor(props){
-        super(props)
+      super(props)
 
-         // Bind this to createBarCharts
-         this.createBarCharts           = this.createBarCharts.bind(this)
-	 this.calculateChartValues      = this.calculateChartValues.bind(this)
-         this.brush                     = brush
-	 this.calculateChartValues(props) 
-
+      // Bind this to createBarCharts
+      this.createBarCharts           = this.createBarCharts.bind(this)
+	  this.calculateChartValues      = this.calculateChartValues.bind(this)
+      this.brush                     = brush
+	  this.calculateChartValues(props) 
     }
 
     componentDidMount(){
@@ -40,23 +39,23 @@ class SpilbaGraphic extends Component{
     }
 
     componentDidUpdate(){
-        console.log("SpilbaGraphic::componentDidUpdate()")
-        this.createBarCharts()
+      console.log("SpilbaGraphic::componentDidUpdate()")
+      this.createBarCharts()
     }
 
     componentWillReceiveProps(nextProps){
-	this.calculateChartValues(nextProps) 
+	  this.calculateChartValues(nextProps) 
     }
 
     componentWillUpdate(nextProps, nextState){
-        console.log("SpilbaGraphic::componentWillUpdate()")
+      console.log("SpilbaGraphic::componentWillUpdate()")
     }
 
     calculateChartValues(props){
         const { 
           id_, 
           channel_name, 
-	  colors,
+	      colors,
           zoom, 
           height,
           width,                    
@@ -135,7 +134,7 @@ class SpilbaGraphic extends Component{
         const data_sources     = this.data_sources
         const offsets          = this.active_logs.map( acl => acl.x_offset )
         const data             = this.data
-	const channel          = this.channel 
+	    const channel          = this.channel 
 		                
         let   idleTimeout    = null
         const idleDelay      = 350
@@ -163,6 +162,7 @@ class SpilbaGraphic extends Component{
 
         select(node)
          .html("");
+
 
         select(node)
          .selectAll('path.line')
@@ -224,6 +224,18 @@ class SpilbaGraphic extends Component{
           .append("g")
           .attr("class", "brush")
           .call(brush)
+
+        select(node)
+          .append("g")
+          .attr('writing-mode','tb-rl')
+          .attr('fill','black')
+          .attr('font-size','14')
+          .attr('font','bold')
+          .attr('transform','matrix(-1,0,0,-1,10,100)')
+          .append("text")
+          .attr('y','50px')
+          .attr('text-anchor','middle')
+          .text(() => this.channel_name)
 
         function brushended(){
           var s = event.selection;
@@ -336,7 +348,7 @@ class SpilbaGraphic extends Component{
 
         return (
           <div className="GraficoUI">
-              <svg ref={ node => this.node = node } width={this.width + this.xOffset} height={this.height + this.yOffset}></svg>
+            <svg ref={ node => this.node = node } width={this.width + this.xOffset} height={this.height + this.yOffset}></svg>
           </div>
         )
     }

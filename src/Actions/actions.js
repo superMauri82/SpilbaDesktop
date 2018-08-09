@@ -42,8 +42,8 @@ export const activateLog =
 export const addLogs = 
     (logs) =>
       ({
-          type : C.ADD_IN_SESSION_LOGS,
-	  logs : logs,
+        type : C.ADD_IN_SESSION_LOGS,
+	    logs : logs,
       })
 
 // LOGS Action
@@ -51,9 +51,9 @@ export const addLog =
     (id,rev,log) =>
       ({
           type : C.ADD_IN_SESSION_LOG,
-	  log  : log,
-	  _id  : id,
-	  _rev : rev,
+	      log  : log,
+	      _id  : id,
+	      _rev : rev,
       })
 
 // LOGS Action

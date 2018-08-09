@@ -17,6 +17,7 @@ class Spilba {
         let lines = data.split('\n').filter(line => {
             return !(line.length === 0 || !line.trim())
         });
+
         this.raw = lines;
         this.columns = this._parseHeader(lines);
         this.rows = this._parseBody(lines);

@@ -48,7 +48,6 @@ class TagABM  extends React.Component {
 }
 
 TagABM.propTypes = {
-    tags : PropTypes.arrayOf(PropTypes.object),
     onCreate: PropTypes.func,
     onDelete: PropTypes.func
 };
