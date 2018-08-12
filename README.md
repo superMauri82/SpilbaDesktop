@@ -34,8 +34,8 @@ Al correr los comandos previos, debería verse la App:
 
 
 ### Road Map 1° Versión Funcional
-- Tracks
-- Componente Pista (secciona log en Tracks)
+- ~~Tracks~~ _bloqueado x POSITION INDEX_ :fire: :fire: :fire: :exclamation:
+- ~~Componente Pista (secciona log en Tracks)~~  _bloqueado x POSITION INDEX_ :fire: :fire: :fire: :exclamation: 
 - Habilitar Channel
 - Habilitar Activate/Deactivate Log
 - Habilitar Delete Log
