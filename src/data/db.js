@@ -11,9 +11,11 @@ PouchDB.debug.enable('*');
 const Tracks = new PouchDB(Config.get('DB_NAME')+'-tracks',{storage:'persistent'});
 const Logs = new PouchDB(Config.get('DB_NAME')+'-logs',{storage:'persistent'});
 const Sessions = new PouchDB(Config.get('DB_NAME')+'-sessions',{storage:'persistent'});
+const Channels = new PouchDB(Config.get('DB_NAME')+'-channels',{storage:'persistent'});
 
 export {
   Tracks,
   Logs,
-  Sessions
+  Sessions,
+  Channels
 };
