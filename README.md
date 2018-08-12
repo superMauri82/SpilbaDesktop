@@ -56,6 +56,9 @@ Al correr los comandos previos, debería verse la App:
 - App Auto Upgrade
 - Publicidad productos Spilba en App
 
+### Status al 12/08/2018
+Se incorpora deteccion y seleccion de Channels. **_Queda pendiente POSITION INDEX (Algoritmo, Zips, etc...)_**.
+
 ### Status al 08/08/2018
 Se logro generar ejecutable .deb (Linux). Se descartaron fallas en parseo de .vbo's. Se agrego descripcion de cada channel dibujado en Dashboard.
 
