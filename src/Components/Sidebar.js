@@ -41,7 +41,7 @@ class Sidebar extends Component {
 
             <NavItem>
               <NavLink to='/channels' className='nav-link' activeClassName="active">
-                <i className='icon-home' /> Channels
+                <i className='icon-user' /> Channels
               </NavLink>
             </NavItem>
 

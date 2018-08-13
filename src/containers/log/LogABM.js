@@ -1,6 +1,7 @@
-import React from 'react';
-import {LogABM} from '../../Components/log';
-import {Logs} from '../../data/index';
+import React      from 'react';
+import {LogABM}   from '../../Components/log';
+import {Logs}     from '../../data/index';
+import {Channels} from '../../data/index';
 
 export default class LogABMContainer extends React.Component {
   
@@ -13,10 +14,12 @@ export default class LogABMContainer extends React.Component {
 
   handleOnCreation = (log) => {
     Logs.create(log).then(() => {
-      Logs.getAll().then((logs) => {
-        this.setState(Object.assign({},this.state,{logs}));
+      Channels.createMany(log).then( (resp) => {
+          Logs.getAll().then((logs) => {
+            this.setState(Object.assign({},this.state,{logs}));
+          })
+        })
       })
-    })
   };
   
   componentDidMount = () => {
