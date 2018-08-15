@@ -1,44 +1,33 @@
 /* eslint_disable */
-import { v4 } from 'uuid'
-const id_05 = v4()
-const id_06 = v4()
-const id_07 = v4()
 
 var initialState = {
-    active_logs: [
-    ],
-    in_session_logs: [
+    logs: [
     ],
     channels: [
-        {
-          id_: id_07,
-          channel_name: 'Lat. accel',
-          channel_function: x => x
-        },
-        {
-          id_: id_05,
-          channel_name: 'velocity kmh',
-          channel_function: x => x
-        },    
-        {
-          id_: id_06,
-          channel_name: 'Long. accel',
-          channel_function: x => x
-        }
-    ],
-    active_channels: [
-        {
-          id_: id_07,
-          zoom: { }
-        },
-        {
-          id_: id_05,
-          zoom: { }
-        },
-        {
-          id_: id_06,
-          zoom: { }
-        }
+      {
+        active : true,
+        functionName : "Data Adquirida",
+        name : "Gyro X",
+        zoom : {},
+        _id : "Gyro X",
+        _rev : "2-7de90d67bbd4444c9437c599b7d88f9a"
+      },
+      {
+        active : true,
+        functionName : "Data Adquirida",
+        name : "velocity kmh",
+        zoom : {},
+        _id : "velocity kmh",
+        _rev : "1-10e43317a5d743bbaac8e18b9d1956f6"
+      },
+      {
+        active : true,
+        functionName : "Data Adquirida",
+        name : "Gyro Y",
+        zoom : {},
+        _id : "Gyro Y",
+        _rev : "2-7de90d67bbd4444c9437c599b7d88f9a"
+      }
     ]
 }
 

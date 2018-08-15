@@ -53,8 +53,8 @@ class SpilbaGraphic extends Component{
 
     calculateChartValues(props){
         const { 
-          id_, 
-          channel_name, 
+          _id, 
+          name, 
 	      colors,
           zoom, 
           height,
@@ -69,10 +69,10 @@ class SpilbaGraphic extends Component{
          this.active_logs   = this.data_sources
          this.colors        = colors
          this.zoom          = zoom
-         this.id_channel    = id_
+         this.id_channel    = _id
          this.onShiftCurve  = onShiftCurve
          this.onChangeZoomX = onChangeZoomX
-         this.channel_name  = channel_name
+         this.name  = name
 
          this.height                    = height || 300;        
          this.width                     = width  || 960;       
@@ -85,16 +85,16 @@ class SpilbaGraphic extends Component{
 				              id_log:   ds._id,
 				              columns:  ds.data.columns,
 		                              raw_data: ds.data.rows,
-					      channel_name_offset: ds.data.columns.indexOf(this.channel_name)
+					      name_offset: ds.data.columns.indexOf(this.name)
 					    }
 	                                  })
 
 
 	 this.channel = this.data
-		            .reduce((acc,d) => d.channel_name_offset,-1)
+		            .reduce((acc,d) => d.name_offset,-1)
 
          this.minsAndMaxsOfSamplesFiles = this.data
-		                              .map( x => extent( x.raw_data, d=>+d[x.channel_name_offset] ) )
+		                              .map( x => extent( x.raw_data, d=>+d[x.name_offset] ) )
 		                              .reduce((a,acc) => a.concat(acc) , []);
 
          this.shortestOfAll            = min(this.minsAndMaxsOfSamplesFiles,d=>d); 
@@ -105,12 +105,12 @@ class SpilbaGraphic extends Component{
 		                             .reduce( (acc,a) => a.raw_data.length > acc ? a.raw_data.length : acc, 0 )
 
          // Domains
-	 this.xInitialDomain            = [0, this.maxLengthOfSamplesFiles] ;
+	     this.xInitialDomain            = [0, this.maxLengthOfSamplesFiles] ;
          this.yInitialDomain            = [this.shortestOfAll,this.maxOfDomain];
 
          // Chart Scales
-	 const xDomain = (this.zoom.zoom_x) ? this.zoom.zoom_x : this.xInitialDomain
-	 const yDomain = (this.zoom.zoom_y) ? this.zoom.zoom_y : this.yInitialDomain
+	     const xDomain = (this.zoom.zoom_x) ? this.zoom.zoom_x : this.xInitialDomain
+	     const yDomain = (this.zoom.zoom_y) ? this.zoom.zoom_y : this.yInitialDomain
          this.xScale = scaleLinear().clamp(true).domain(xDomain).range([this.xOffset,(this.width+this.xOffset)]);
          this.yScale = scaleLinear().clamp(true).domain(yDomain).range([(this.height - this.yOffset),this.yRangeMin]);
 
@@ -132,7 +132,8 @@ class SpilbaGraphic extends Component{
         let incomingDataLine   = this.incomingDataLine
         const colors           = this.colors
         const data_sources     = this.data_sources
-        const offsets          = this.active_logs.map( acl => acl.x_offset )
+        //const offsets          = this.active_logs.map( acl => acl.x_offset )
+        const offsets          = this.active_logs.map( acl => 0 )
         const data             = this.data
 	    const channel          = this.channel 
 		                
@@ -235,7 +236,7 @@ class SpilbaGraphic extends Component{
           .append("text")
           .attr('y','50px')
           .attr('text-anchor','middle')
-          .text(() => this.channel_name)
+          .text(() => this.name)
 
         function brushended(){
           var s = event.selection;

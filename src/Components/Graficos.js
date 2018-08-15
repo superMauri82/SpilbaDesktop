@@ -62,18 +62,8 @@ class GraficosUI extends React.Component{
 
 const GrafContainer = connect(
     state => ({ 
-        active_logs: zipWith(
-                       sortBy([...state.in_session_logs], isl => isl._id),
-                       sortBy([...state.active_logs],acl => acl._id), 
-                       (isl,acl) => ({ ...isl, ...acl })
-                     ).filter( zlog => !isUndefined(zlog.x_offset) ),
-
-        active_channels: zipWith(
-                       sortBy([...state.channels], chn => chn._id),
-                       sortBy([...state.active_channels],ach => ach._id), 
-                       (chn,ach) => ({ ...chn, ...ach })
-                     )
-
+        active_logs: [...state.logs.filter(log => log.active )],
+        active_channels: [...state.channels.filter(chn => chn.active )]
     })
     ,
     dispatch => ({
