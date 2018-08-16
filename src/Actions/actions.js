@@ -65,3 +65,13 @@ export const deleteLog =
           type: C.SHIFT_CURVE_X,
           x_offset
       })
+
+
+// CHANNELS LOGS Action
+export const addLogsAndChannels = 
+    (logs,channels) =>
+      ({
+        type : C.ADD_LOGS_AND_CHANNELS,
+	    logs : logs,
+        channels: channels
+      })

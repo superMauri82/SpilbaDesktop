@@ -1,6 +1,7 @@
 const constants = {
    ADD_IN_SESSION_LOG            : "ADD_IN_SESSION_LOG",             /* => agrega un LOG a la sesión de trabajo */
    ADD_IN_SESSION_LOGS           : "ADD_IN_SESSION_LOGS",            /* => agrega LOGS a la sesión de trabajo */
+   ADD_LOGS_AND_CHANNELS         : "ADD_LOGS_AND_CHANNELS",          /* => agrega Logs y Channels */
    REMOVE_IN_SESSION_LOG         : "REMOVE_IN_SESSION_LOG",          /* => agrega un LOG a la sesión de trabajo */
    ACTIVATE_LOG                  : "ACTIVATE_LOG",                   /* => agrega LOG existente en sesión a visualización */
    DEACTIVATE_LOG                : "DEACTIVATE_LOG",                 /* => quita LOG existente en sesión de visualización */

@@ -6,7 +6,7 @@ import C from './../Actions/Constants'
 
 export const logs = (state=[], action) =>{
     switch (action.type){
-      case (C.ADD_IN_SESSION_LOGS):
+      case (C.ADD_LOGS_AND_CHANNELS):
         return [
 		  ...action.logs
 	    ]
@@ -28,6 +28,10 @@ export const logs = (state=[], action) =>{
 
 export const channels = (state=[], action) =>{
     switch (action.type){
+      case (C.ADD_LOGS_AND_CHANNELS):
+        return [
+              ...action.channels
+	    ]
         case (C.CHANGE_X_ZOOM):
         case (C.CHANGE_Y_ZOOM):
           return state.map( a_ch =>            

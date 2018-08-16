@@ -5,7 +5,7 @@
   "author": "Spilba",
   "description": "Software Companion Tool for Spilba Onboard System",
   "license": "MIT",
-  "build":{
+  "build": {
     "appId": "com.example.spilbadesktop",
     "productName": "......",
     "files": [
@@ -13,12 +13,12 @@
       "node_modules/**/*"
     ],
     "linux": {
-      "category": "Utils",
+      "category": "utils",
       "packageCategory": "utils",
       "icon": "assets/icons",
-      "target": ["deb"],
-      "category": "utils",
-      "target": ["deb"],
+      "target": [
+        "deb"
+      ],
       "synopsis": "Race Performance Analysis Tool",
       "maintainer": "Spilba <help@spilba.com>"
     }
@@ -47,6 +47,7 @@
     "react-transition-group": "^2.3.1",
     "reactstrap": "^5.0.0",
     "redux": "^3.7.2",
+    "redux-thunk": "^2.3.0",
     "simple-line-icons": "^2.4.1",
     "uuid": "^3.2.1"
   },

@@ -2,10 +2,11 @@ import { createStore,
          combineReducers,
          applyMiddleware } from 'redux'
 
+import thunk from 'redux-thunk'
+
 import { 
     logs,
-    channels,
-    active_channels 
+    channels
 } from  './../Reducers/reducers'
 import stateData from './../State/initialState'
 
@@ -21,19 +22,17 @@ const logger = store => next => action => {
 
 const saver = store => next => action => {
     let result = next(action)
-    //localStorage['redux-store'] = JSON.stringify(store.getState())
     return result
 }
 
 const storeFactory = (initialState=stateData) => 
-    applyMiddleware(logger, saver)(createStore)(
+    //applyMiddleware(thunk)(createStore)(
+    applyMiddleware(thunk,logger,saver)(createStore)(
         combineReducers({ 
             logs,
             channels
         }),
-        //(localStorage['redux-store']) ?
-         //   JSON.parse(localStorage['redux-store']) :
-            stateData
+       stateData
     )
 
 export default storeFactory

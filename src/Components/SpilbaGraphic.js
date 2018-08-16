@@ -51,6 +51,10 @@ class SpilbaGraphic extends Component{
       console.log("SpilbaGraphic::componentWillUpdate()")
     }
 
+    componentWillUnmount(){
+      console.log("SpilbaGraphic::componentWillUnmount()")
+    }
+
     calculateChartValues(props){
         const { 
           _id, 
