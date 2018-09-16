@@ -70,8 +70,6 @@ const GrafContainer = connect(
         fetchActiveLogs(){
            Logs.getAll().then((logs) => {
                Channels.getAll().then((channels) => {
-                   console.log('Tengo estos logs y channels')
-                   console.log(logs,channels)
                    dispatch(addLogsAndChannels(logs,channels))
                })
            })

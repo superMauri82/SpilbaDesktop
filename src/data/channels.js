@@ -8,7 +8,7 @@ export default {
   
   create: (chn) => Channels.post(chn),
 
-  createMany: (log) => Channels.bulkDocs(log.data.columns.map(ch => ({ _id: ch, name: ch, function: 'Data Adquirida', active: true, zoom: {}, triggeredZoom: false }) )).catch(console.log),
+  createMany: (log) => Channels.bulkDocs(log.data.columns.map(ch => ({ _id: ch, name: ch, function: 'Data Adquirida', active: false, zoom: {}, triggeredZoom: false }) )).catch(console.log),
 
   toggleActive: (chn) => Channels.get(chn._id).then(function(doc) {
     return Channels.put({
@@ -20,7 +20,7 @@ export default {
       zoom: {}
     });
   }).then(function(response) {
-    // handle response
+    return response
   }).catch(function (err) {
     console.log(err);
   }), 

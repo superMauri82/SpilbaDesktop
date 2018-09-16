@@ -34,13 +34,13 @@ export default class ChannelsABMContainer extends React.Component {
   };
 
   handleOnToggleActive = (channel) => {
-    Channels.toggleActive(channel).then(
-      Channels.getAll().then((channels) => {
-        this.setState(Object.assign({},{channels}));
-      })
-    )
-
-  };
+    Channels.toggleActive(channel)
+      .then((result) => {
+        Channels.getAll().then((channels) => {
+          this.setState(Object.assign({},this.state,{channels}));
+        })
+     })
+  }
 
   handleOnEdit = (channel) => {
     console.log('handleOnEdit')
