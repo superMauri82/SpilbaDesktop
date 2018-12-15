@@ -1,4 +1,4 @@
-1-Levanta los datos desde un CSV y los carga en un ARRAY dinámico de estructuras.
+1-Levanta los datos desde un CSV (definido en el .h, por ahora no se pasa por parámetro) y los carga en un ARRAY dinámico de estructuras.
 
 2-Calcula los cortes de las vueltas, es decir la posición (índice del ARRAY) donde empieza cada vuelta. 
 Estos cortes se calculan a partir de la elección del usuario de una posición en el circuito (esta coordenadas que tiene que estar en el ARRAY),
@@ -12,3 +12,5 @@ Vamos a reducir las demás vueltas a X muestras.
 
 5-Resamplea todas las vueltas y guarda c/u en un archivo separado.
 (Con estos datos ya se podría gráficar en función del "position index")
+
+En el .h están los #define que habilitan la carga de datos de los distintos circuitos.
