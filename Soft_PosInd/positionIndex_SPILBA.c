@@ -481,7 +481,7 @@ int main (void)
     //double *vuelta;
     double delta_distancia_prueba;
     double delta_tiempo_prueba;
-    char lyne[101];
+    char line[101];
     char *item;
     double *vuelta_tiempos_acumulada_seg;
     double *tiempos_cada_vuelta_seg;
@@ -507,7 +507,7 @@ int main (void)
 #endif
     if (fp_1 == NULL) perror ("Error opening file");
 
-        while (fgets(lyne,120,fp_1) != NULL)
+        while (fgets(line,120,fp_1) != NULL)
             LARGO++;
     fclose(fp_1);
     // Defino el largo del archivo
@@ -557,13 +557,13 @@ int main (void)
 #endif
     if (fp == NULL) perror ("Error opening file");
 
-    while (fgets(lyne,120,fp) != NULL)
+    while (fgets(line,120,fp) != NULL)
     {
         //printf("%s\n",lyne);
         //printf("%i\n",j);
 
 #ifdef MOURAS
-        item = strtok(lyne,",");
+        item = strtok(line,",");
         datosSpilba[j].sats         = atof(item);
 
         item = strtok(NULL,",");
@@ -604,7 +604,7 @@ int main (void)
 #endif
 
 #ifdef TERMAS
-        item = strtok(lyne,",");
+        item = strtok(line,",");
         datosSpilba[j].sats         = atof(item);
 
         item = strtok(NULL,",");
@@ -635,7 +635,7 @@ int main (void)
 #ifdef BAIRES
 
 
-        item = strtok(lyne,",");
+        item = strtok(line,",");
         datosSpilba[j].sats         = atof(item);
 
         item = strtok(NULL,",");
