@@ -56,7 +56,7 @@ void cumsum(double *array, double *sum, int index)
 }
 
 
-//Funci√≥n que pasa de minutos decimales (MMMM.xxxx) a grados decimales (DD.xxxx)
+//Funci√É¬≥n que pasa de minutos decimales (MMMM.xxxx) a grados decimales (DD.xxxx)
 double minDec2degDec (double minDec)
 {
   int deg;
@@ -74,7 +74,7 @@ void minDec2degDec_vector (double *minDec, double *degDec, int LARGO_vector)
     //int LARGO_vector;
     int i;
 
-    //LARGO_vector = NELEMS(minDec); //est· bien eso???
+    //LARGO_vector = NELEMS(minDec); //est√° bien eso???
     //LARGO_vector = 8655;
 
     //printf("LARGO\n %i", LARGO_vector);
@@ -104,7 +104,7 @@ void normal_con_dos_puntos (double x1, double x2, double y1, double y2, double a
 
 void normal_con_un_punto(double lat, double lon, double heading, int ancho_pista)
 {
-  //Funci√≥n que calcula
+  //Funci√É¬≥n que calcula
   ////Heading en deg
   double Dlat,Dlong;
   double propor_lat,propor_long;
@@ -291,7 +291,7 @@ double Haversine(double lat1, double lon1, double lat2, double lon2)
   return distancia;
 }
 
-//Funci√≥n que Calcula el LARGO de la vuelta
+//Funci√É¬≥n que Calcula el LARGO de la vuelta
 double *largo_vuelta (double *sesion_completa, unsigned int inicio, unsigned int final)
 {
   int n, i=0;
@@ -365,12 +365,12 @@ sSpilbaDataRow *resampleo_falso (sSpilbaDataRow *vuelta_original, sSpilbaDataRow
 
 
 
-  //Recorro todito el vector de la vuelta r·pida
+  //Recorro todito el vector de la vuelta r√°pida
   for(n=0; n<LARGO_modelo-3; n++)
   {
-      //Tomo segmentos m·s LARGOS(3 elementos) de n+1 a n+3, arrancao desde el n+1 porque me puede tocar que solo haya cruce
+      //Tomo segmentos m√°s LARGOS(3 elementos) de n+1 a n+3, arrancao desde el n+1 porque me puede tocar que solo haya cruce
       // en la ultima muestra, entonces jode tutto.
-      //Est· medio hardcodeado todito habrÌa que pensarla un poco mejor este resampleo_falso
+      //Est√° medio hardcodeado todito habr√≠a que pensarla un poco mejor este resampleo_falso
       normal_con_dos_puntos(modelo_lat[n+1], modelo_lat[n+3], modelo_long[n+1], modelo_long[n+3], 25, x_normal, recta_normal);
 
       //printf("x_normal[0]:%f ", x_normal[0]);
@@ -460,7 +460,7 @@ int main (void)
 {
     FILE * fp_out;
 
-    sSpilbaDataRow *datosSpilba, *vuelta_rapida, *vuelta_original, *vuelta_al; //habrÌa que leer el CSV y cargarlo a esta estructura, y de paso calcular el LARGO del array
+    sSpilbaDataRow *datosSpilba, *vuelta_rapida, *vuelta_original, *vuelta_al; //habr√≠a que leer el CSV y cargarlo a esta estructura, y de paso calcular el LARGO del array
     double *lat, *lon, *direccion, *velocity_ms;
     double *temp;
     int heading_marker, ancho_pista, total_vueltas;
@@ -708,7 +708,7 @@ int main (void)
     free(temp);
 
     //Asigno start/finish. Se eligen dos coordenadas del total que tiene el archivo
-    //(el usuario deberÌa elegir esto)
+    //(el usuario deber√≠a elegir esto)
 
     //Datos de la plata
 #ifdef MOURAS
@@ -750,8 +750,8 @@ int main (void)
     LapMarker_lat_degree[1]    = minDec2degDec(LapMarker_lat_minutes[1]);
     LapMarker_long_degree[1]   = minDec2degDec(LapMarker_long_minutes[1]);
 
-    //Como yo sÈ que el valor de LapMarker fui elegido de la data, busco en quÈ posiciÛn del vector est·.
-    //Es decir busco su Ìndice
+    //Como yo s√© que el valor de LapMarker fui elegido de la data, busco en qu√© posici√≥n del vector est√°.
+    //Es decir busco su √≠ndice
 
     for (n = 0;n<LARGO;n++)
     {
@@ -764,7 +764,7 @@ int main (void)
     //printf("LapMarker_lat_degree[0]:%f\n", LapMarker_long_degree[0]);
 
 
-    //Defino mi ancho de pista. En ppio esto deberÌa definir de mi recta normal, asÌ puedo saber si la cruza o no en ese segmento.
+    //Defino mi ancho de pista. En ppio esto deber√≠a definir de mi recta normal, as√≠ puedo saber si la cruza o no en ese segmento.
     ancho_pista=25;
 
     //Esto devuelve (x1,y1) (x2,y2) que forman parte de la recta normal a la recta que pasa por los dos puntos LapMarker
@@ -779,9 +779,9 @@ int main (void)
 
 
     //Busco la interseccion entre esa recta normal y las rectas formadas por dos puntos(coordenadas) consecutivos.
-    //Como algunas interseccciones puede que estÈn a 100km, elijo los valores m·s "cercanos". La distancia que define la cercanÌa tendrÌa
-    //que estar relacionada con el ancho de pista pero esto no est· implementado. Se pone un distancia a ojo. Entonces saco
-    //donde est·n los cortes de TODAS vueltas.
+    //Como algunas interseccciones puede que est√©n a 100km, elijo los valores m√°s "cercanos". La distancia que define la cercan√≠a tendr√≠a
+    //que estar relacionada con el ancho de pista pero esto no est√° implementado. Se pone un distancia a ojo. Entonces saco
+    //donde est√°n los cortes de TODAS vueltas.
     ind = 0;
 
     for (n=0; n<LARGO-1; n++)
@@ -824,7 +824,7 @@ int main (void)
                 cruze_y[ind]=solucion_y;
                 marker_spilba_lat [ind]=lat[n+1];
                 marker_spilba_long[ind]=lon[n+1];
-                //Ac· a la variable la llamo position index, pero en realidad es la posiciÛn (Ìndice del vector) donde empieza cada vuelta!!
+                //Ac√° a la variable la llamo position index, pero en realidad es la posici√≥n (√≠ndice del vector) donde empieza cada vuelta!!
                 position_index[ind]=n;
                 ind = ind + 1;
             }
@@ -841,16 +841,16 @@ int main (void)
 
 
     //Calculo los deltas de distancia y tiempo
-    //Aunque yo YA S… que el gps toma 10 muestras por segundo, hago esto para inventarle m·s digitos despuÈs
+    //Aunque yo YA S√â que el gps toma 10 muestras por segundo, hago esto para inventarle m√°s digitos despu√©s
     //de la coma
     b=1;
 
-    #warning "Son necesarias las dos lÌneas de abajo??"
+    #warning "Son necesarias las dos l√≠neas de abajo??"
     delta_distancia[0]  = 0;
     delta_tiempo[0] = 0;
 
 
-    #warning "Ac·, hay dos problemas. Se dan cuando la velocidad es 0 o la distancia es 0 (que pueden darse tranquilamente en boxes). Harcodeo??? A efectos pr·cticos no deberÌa pasar nada"
+    #warning "Ac√°, hay dos problemas. Se dan cuando la velocidad es 0 o la distancia es 0 (que pueden darse tranquilamente en boxes). Harcodeo??? A efectos pr√°cticos no deber√≠a pasar nada"
     for (n = 0; n<LARGO-1; n++)
     {
         delta_distancia[b]  = Haversine(lat[n],lon[n],lat[n+1],lon[n+1])*1000;
@@ -868,8 +868,8 @@ int main (void)
 
 
         #warning "ojo que por lo explicado abajo, las vueltas que entre el auto a boxes van a ser cualquier cosa con el position index"
-        //hiper re contra hardcodeado!!!! Hay momentos que me dan valores gigante sin sentido cuando est· parado en boxes
-        //entonces como nunca pueden m·s que 0.2, lo bloqueo y listorti.
+        //hiper re contra hardcodeado!!!! Hay momentos que me dan valores gigante sin sentido cuando est√° parado en boxes
+        //entonces como nunca pueden m√°s que 0.2, lo bloqueo y listorti.
         if(delta_tiempo[b]>0.2)
             delta_tiempo[b]=0.1;
 
@@ -898,7 +898,7 @@ int main (void)
    //     printf("tiempo_total_seg[%i]=%f\n", i, tiempo_total_seg[i]);
 
 
-    //Calculo la distancia entre muestras y despuÈs
+    //Calculo la distancia entre muestras y despu√©s
     for (n=0;n<LARGO-1;n++)
         delta_distancia[n] = Haversine(lat[n],lon[n],lat[n+1],lon[n+1]);
 
@@ -933,12 +933,12 @@ int main (void)
         //        }
 
 
-        //Ac· en vuelta_metros est· cada vuelta en metros
+        //Ac√° en vuelta_metros est√° cada vuelta en metros
         vuelta_metros = largo_vuelta(delta_distancia_metros,position_index[a],position_index[a+1]);
 
         printf("Se analiza desde %i hasta %i ---> %i muestras\t", position_index[a], position_index[a+1], position_index[a+1]-position_index[a]);
 
-        //Ac· en vuelta_tiempos_seg est· cada vuelta en segundos. Tomo partes del delta_tiempo en funciÛn del inicio y fin de la vuelta
+        //Ac√° en vuelta_tiempos_seg est√° cada vuelta en segundos. Tomo partes del delta_tiempo en funci√≥n del inicio y fin de la vuelta
         for(i=position_index[a], j=0; i<position_index[a+1]; i++)
         {
             vuelta_tiempos_seg[j] = delta_tiempo[i];
@@ -946,7 +946,7 @@ int main (void)
         }
 
         //Tomo la distancia total entre el final de la vuelta y el inicio.
-        #warning "por quÈ es cruce y no directamente usar el position index???"
+        #warning "por qu√© es cruce y no directamente usar el position index???"
         delta_distancia_prueba = Haversine( lat[position_index[a+1]], lon[position_index[a+1]], cruze_x[a],cruze_y[a])*1000;
 
 
@@ -964,14 +964,14 @@ int main (void)
 //        }
 
 
-        //En este array est·n los tiempos de vueltas en segundos
+        //En este array est√°n los tiempos de vueltas en segundos
         tiempos_cada_vuelta_seg[a]=vuelta_tiempos_acumulada_seg[position_index[a+1]-position_index[a]-1]-delta_tiempo_prueba;
 
         //printf("vuelta_tiempos_acumulada_seg:%f\n",vuelta_tiempos_acumulada_seg[position_index[a+1]-position_index[a]-1]); //el -1 es por el tema de los array en C empiezan en la pos 0
 
         printf("vuelta %i en seg: %f \t---->",a+1,tiempos_cada_vuelta_seg[a]);
 
-        //Ac· grabo en un string los tiempos de vueltas
+        //Ac√° grabo en un string los tiempos de vueltas
         sprintf( tiempos_cada_vuelta, "%.f:%0.2f", floor(tiempos_cada_vuelta_seg[a]/60),
                                                     tiempos_cada_vuelta_seg[a]-floor(tiempos_cada_vuelta_seg[a]/60)*60);
 
@@ -985,26 +985,26 @@ int main (void)
     printf("\n\n");
 
 
-    //Voy dividir vueltas en funciÛn del position index, asÌ grafico.
-    //Tengo que elegir la vuelta m·s r·pida. Por eso busco el "min"
-    //la llamo vuelta_r·pida
+    //Voy dividir vueltas en funci√≥n del position index, as√≠ grafico.
+    //Tengo que elegir la vuelta m√°s r√°pida. Por eso busco el "min"
+    //la llamo vuelta_r√°pida
 
     nro_vuelta_rapida=minimum(tiempos_cada_vuelta_seg, total_vueltas-1);
     tiempo_rapido=tiempos_cada_vuelta_seg[nro_vuelta_rapida];
 
     printf("vuelta %i (rapida) en seg: %f \t---->",nro_vuelta_rapida+1,tiempo_rapido);
 
-    //Ac· grabo en un string los tiempos de vueltas
+    //Ac√° grabo en un string los tiempos de vueltas
     sprintf( tiempos_cada_vuelta, "%.f:%0.2f", floor(tiempo_rapido/60),tiempo_rapido-floor(tiempo_rapido/60)*60);
 
     printf("%s \n\n\n",tiempos_cada_vuelta);
 
-    //"p" me va a dar la cantidad de muestras que tiene la vuelta r·pida.
+    //"p" me va a dar la cantidad de muestras que tiene la vuelta r√°pida.
     //Tengo que hacer un algoritmo que me haga que TODAS las vueltas tengan "p" de muestras.
-    //el nro "p" a pesar de ser un entero, representa en fondo una posiciÛn de GPS
+    //el nro "p" a pesar de ser un entero, representa en fondo una posici√≥n de GPS
     p=position_index[nro_vuelta_rapida+1]-position_index[nro_vuelta_rapida];
 
-    //Separo la vuelta r·pida
+    //Separo la vuelta r√°pida
 
     vuelta_rapida =  (sSpilbaDataRow*) malloc (p * sizeof(sSpilbaDataRow) );
 
@@ -1015,7 +1015,7 @@ int main (void)
     }
 
 
-    //barro todas las vueltas menos las r·pida
+    //barro todas las vueltas menos las r√°pida
     //for (i=110;i<120;i++)
     for (i=1;i<total_vueltas-1;i++)
     {
@@ -1103,7 +1103,7 @@ int main (void)
         if (i!=nro_vuelta_rapida)
         {
             //"q" me va a dar la cantidad de muestras de cada vuelta,
-            //°PERO yo necesito que sean de largo "p"
+            //¬°PERO yo necesito que sean de largo "p"
             q=position_index[i+1]-position_index[i];
             vuelta_original =  (sSpilbaDataRow*) malloc (q * sizeof(sSpilbaDataRow) );
 
@@ -1172,8 +1172,8 @@ int main (void)
         fclose(fp_out);
     }
 
-    printf("FIN DEL PROGRAMA\n");
-
+    
+    printf("Libero memoria\n");
 
     free(datosSpilba);
     free(position_index);
@@ -1181,7 +1181,6 @@ int main (void)
     free(vuelta_rapida);
     free(lon);
     free(lat);
-    free(temp);
     free(velocity_ms);
     free(direccion);
     free(delta_distancia);
@@ -1192,6 +1191,8 @@ int main (void)
     free(marker_spilba_lat);
     free(marker_spilba_long);
     free(tiempos_cada_vuelta_seg);
+                        
+    printf("FIN DEL PROGRAMA\n");
 
     return 0;
 
