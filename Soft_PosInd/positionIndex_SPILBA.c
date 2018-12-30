@@ -599,7 +599,7 @@ int main (void)
         item = strtok(NULL,",");
         datosSpilba[j].Gyro_y       = atof(item);
 
-        item = strtok(NULL,"\n");
+        item = strtok(NULL,",");
         datosSpilba[j].Gyro_z       = atof(item);
 #endif
 
@@ -629,7 +629,7 @@ int main (void)
         datosSpilba[j].Vert_accel   = atof(item);
 
         item = strtok(NULL,",");
-        datosSpilba[j].Gyro_x       = atof(item);
+        //datosSpilba[j].Gyro_x       = atof(item);
 #endif
 
 #ifdef BAIRES
@@ -671,7 +671,7 @@ int main (void)
         item = strtok(NULL,",");
         datosSpilba[j].Vbatt        = atof(item);
 
-        item = strtok(NULL,"\n");
+        item = strtok(NULL,",");
         datosSpilba[j].RPM          = atof(item);
 
         item = strtok(NULL,",");
@@ -680,10 +680,10 @@ int main (void)
         item = strtok(NULL,",");
         datosSpilba[j].Signal       = atof(item);
 
-        item = strtok(NULL,"\n");
+        item = strtok(NULL,",");
         datosSpilba[j].Receiver       = atof(item);
 
-        item = strtok(NULL,"\n");
+        item = strtok(NULL,",");
         datosSpilba[j].Retries       = atof(item);
 #endif
 
@@ -1165,10 +1165,9 @@ int main (void)
 #endif
 
                                     );
-        }
-
         free(vuelta_original);
-        free(vuelta_al);
+        free(vuelta_al);                
+        }        
         fclose(fp_out);
     }
 
