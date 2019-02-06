@@ -18,4 +18,4 @@ En el .h están los #define que habilitan la carga de datos de los distintos cir
 
 Para compilar: 
 
-gcc index.c -Wall -pedantic -lm -o index.out
+gcc positionIndex_SPILBA.c -Wall -pedantic -lm -o index.out
