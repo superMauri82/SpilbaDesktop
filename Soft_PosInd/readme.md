@@ -14,3 +14,8 @@ Vamos a reducir las demás vueltas a X muestras.
 (Con estos datos ya se podría gráficar en función del "position index")
 
 En el .h están los #define que habilitan la carga de datos de los distintos circuitos.
+
+
+Para compilar: 
+
+gcc index.c -Wall -pedantic -lm -o index.out
