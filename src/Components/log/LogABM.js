@@ -37,7 +37,7 @@ export default class LogABMContainer extends React.Component {
   handleOnSelect (log) {
     this.setState({...this.state, log, modalDetail:true});
   }
-  
+
   render() {
     const {logs,onCreate,onDelete} = this.props;
     const {log,modalDetail,modalCreation} = this.state;
@@ -60,7 +60,7 @@ export default class LogABMContainer extends React.Component {
       <div className="container-fluid">
         <div className="animated fadeIn">
           <Button color="info" onClick={this.toggleCreation}>Add</Button>
-          <LogListing logs={logs} selected={log} onSelect={this.handleOnSelect} onDelete={onDelete}  />
+          <LogListing logs={logs} selected={log} onSelect={this.handleOnSelect} onDelete={onDelete} onTrack={ x=>x }  />
   
           <Modal isOpen={modalCreation} toggle={this.toggleCreation}>
             <ModalHeader toggle={this.toggleCreation}>Create a new Log</ModalHeader>

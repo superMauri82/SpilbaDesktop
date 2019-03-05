@@ -8,19 +8,19 @@ import {
 } from 'reactstrap';
 import GenericActions from '../GenericActions';
 
-function LogListingItem({log,selected,onSelect,onDelete,onEdit,onActivate}) {
+function LogListingItem({log,selected,onSelect,onDelete,onEdit,onActivate,onTrack}) {
   return (
     <tr onClick={() => selected ? '' : onSelect(log)} >
       <td scope="row">{log.filename}</td>
       <td>{log.data.board + ' ' + log.data.version}</td>
       <td>{log.tags.map((tag,index) => <Badge key={index} color="secondary" pill>{tag}</Badge> )}</td>
-      <td><GenericActions element={log} onView={onSelect} onEdit={onEdit} onDelete={onDelete} onActivate={onActivate} /></td>
+      <td><GenericActions element={log} onView={onSelect} onEdit={onEdit} onDelete={onDelete} onActivate={onActivate} onTrack={onTrack} /></td>
     </tr>
   );
  }
 
 
-function LogListing({logs,selected, onSelect, onDelete, onEdit, onActivate}) {
+function LogListing({logs,selected, onSelect, onDelete, onEdit, onActivate, onTrack}) {
     return (
       <Card>
         <CardHeader>Logs</CardHeader>
@@ -43,6 +43,7 @@ function LogListing({logs,selected, onSelect, onDelete, onEdit, onActivate}) {
                 onSelect={onSelect}
                 onEdit={onEdit}
                 onDelete={onDelete}
+                onTrack={onTrack}
               />)}
             </tbody>
           </Table>
