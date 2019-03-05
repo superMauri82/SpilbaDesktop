@@ -100,28 +100,14 @@ const Tracks = [
     },
 ];
 
-const Sessions = [
-    {
-        title: "Prueba para ver que onda",
-        tags: ["session","demo"],
-        tracks: [13579,13580]
-    },
-    {
-        title: "Que onda la onda?",
-        tags: ["session","demo","onda"],
-        tracks: [13579,13580]
-    },
-];
 
 const State = {
     logs : Logs,
     tracks: Tracks,
-    sessions: Sessions
 };
 
 export {
     Logs,
     Tracks,
-    Sessions,
     State
 };

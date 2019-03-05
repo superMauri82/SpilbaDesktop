@@ -16,12 +16,6 @@ class Sidebar extends Component {
             </NavItem>
   
             <NavItem>
-              <NavLink to='/sessions'  className='nav-link' activeClassName="active">
-                <i className='icon-screen-tablet' />Sessions
-              </NavLink>
-            </NavItem>
-            
-            <NavItem>
               <NavLink to='/dashboard' className='nav-link' activeClassName="active">
                 <i className='icon-speedometer' />Dashboard
               </NavLink>
